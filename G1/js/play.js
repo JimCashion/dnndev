@@ -135,7 +135,7 @@ var playState = {
         if(score >= winscore)
         {
          
-            game.state.start('win');
+           postback('win');
         }
     },
 
@@ -146,7 +146,7 @@ var playState = {
         if (baddie.baddietype == 'killer')
         {
             player.kill();
-            game.state.start('lose');
+            postback('lose');
         }
     },
 

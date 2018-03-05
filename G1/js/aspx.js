@@ -47,36 +47,33 @@ function getSecretCode(){
 }
 
 function postback(arg) {
-   // alert('posting back');
-  //  __doPostBack('bpostback', value);
-	// document.forms[0].submit()
-	game.state.start(arg);
+    //  alert('posting back');
+       __doPostBack('bpostback', 'win');
+    // document.forms[0].submit()
+    game.state.start(arg);
 }
 
 function getTitle(){
 
-	var a = "DINONANONONAGON #2";
+	var a = "DINONANONONAGON #1";
 
 	return a;
 }
 
 function getInstructions(){
 	var a;
-	if(!IsMobile())
-		a = "Click on a picture fragement to move it into the space until the picture is re-assembled";
+	if (!IsMobile())
+		a = "Use the Arrow keys on your keyboard to move left or right and the up arrow to jump";
 	else
-		a = "Touch on a picture fragement to move it into the space until the picture is re-assembled";
+		a = "Touch to the left or right of the player to move and above the player to jump";
 
 	return a;
 
 }
 
-
-
 function getMission(){
-	var a;
 	
-		a = "Re-assemble the picture to reveal an awesome Dinosaur picture and get the coordinates for the cache";
+	var a = "Collect 200 nano caches and avoid the dinosaurs.  Be warned, some are just nasty and will push you around, others will simply kill you!!";
 
 	return a;
 

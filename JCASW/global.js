@@ -18,7 +18,7 @@ original = [];
 var goody_properties = [];
 
 var score = 0;
-var winscore = 200;   //  number of nanos to collect
+var winscore = 10;   //  number of nanos to collect
 var scoreText;
 var startvelocity_x = 4
 var startvelocity_y = 0;
