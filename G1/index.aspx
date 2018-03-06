@@ -42,8 +42,8 @@
 
 <body>
 	    <form id="form1" runat="server">
-        <asp:Button ID="bpostback" runat="server" onclick="bpostback_Click" 
-            Text="Button" />
+        <asp:TextBox ID="tbprize" runat="server" Width="683px" hidden="true">nice try!! ;o)</asp:TextBox>
+        <asp:TextBox ID="tbcontrol" runat="server" Height="22px" hidden="true">menu</asp:TextBox>
  <div id="gameDiv">
     
     </div>

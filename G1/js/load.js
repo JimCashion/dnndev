@@ -1,12 +1,12 @@
 var loadState = {
 
-	preload: function() {
+    preload: function() {
 
-		var loadingLabel = game.add.text(80, 150, 'loading...',
+        var loadingLabel = game.add.text(80, 150, 'loading...',
             { font: '30px Courier', fill: '#ffffff' });
 
         game.load.image('sky', '../assets/sky.png');
-       
+
         game.load.image('ground', '../assets/platform.png');
         game.load.image('star', '../assets/star.png');
         game.load.image('cache', '../assets/cache.png');
@@ -20,10 +20,14 @@ var loadState = {
         game.load.image('diamond', '../assets/diamond.png');
         game.load.image('logo', '../assets/logo1.png');
         LoadBackgroundDinos();
-	},
+    },
 
     create: function() {
-		game.state.start('menu');
-	}
-	
+    
+        var target = document.getElementById("tbcontrol").value;
+        document.getElementById("tbcontrol").value = 'menu';
+        
+        game.state.start(target);
+    }
+
 }

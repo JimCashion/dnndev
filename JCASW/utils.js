@@ -199,6 +199,7 @@ function LoadBackgroundDinos()
 function confirmwin()
 {
     showcoords(getPrize());
+    
 
     if (IsMobile())
     {
