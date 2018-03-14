@@ -8,9 +8,9 @@ var loadState = {
         game.load.image('sky', '../assets/sky.png');
 
         game.load.image('mazewall', '../assets/mazewall.png');
-       
+        game.load.image('mazewall0', '../assets/mazewall0.png');
         game.load.image('mazewall1', '../assets/mazewall1.png');
-         game.load.image('mazewall2', '../assets/mazewall2.png');
+        game.load.image('mazewall2', '../assets/mazewall2.png');
 
          game.load.spritesheet('dudemaze', '../assets/dudemaze.png', 20,20);
          game.load.spritesheet('stegmaze', '../assets/stegmaze.png', 20,20);

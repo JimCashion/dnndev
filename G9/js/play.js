@@ -96,7 +96,7 @@ var playState = {
         this.adddinos(1);
 
         //  now add a goodie
-        //this.addcaches(1, 'nano');
+        this.addcaches(1, 'nano');
         this.addcaches(1, 'trad');
 
         //  add the player
@@ -117,7 +117,16 @@ var playState = {
 	    	{
 	    		
 		    	//  we have entered a new cell
-		       cell.loadTexture('mazewall1', 0);
+
+		    	//  is there a goodie in here?
+
+		    	var g = this.getgoodieincell(cell);
+		    	if(g != null)
+		    	{
+		    		//alert(g.goodietype);
+		    	}
+
+		        cell.loadTexture('mazewall1', 0);
 		        baddie.prevcellx = baddie.cellx;
 		        baddie.prevcelly = baddie.celly;
 		        baddie.cellx = cell.cellx;
@@ -203,8 +212,38 @@ var playState = {
 		       	{
 		       		if(baddie.nextcells[i].good)
 		       		{
-			       		if(this.checkcell(baddie.nextcells[i].newcell, baddie.IQ))
+		       			var celltocheck = baddie.nextcells[i].newcell
+		       			//  close the entrance
+		       			
+		       			if (celltocheck.y < cell.y)
+		       				celltocheck.exits.south = false;
+		       			else
+		       			if (celltocheck.y > cell.y)
+		       				celltocheck.exits.north = false;
+		       			else	
+		       		    if (celltocheck.x < cell.x)
+		       				celltocheck.exits.east = false;
+		       			else	
+		       			if (celltocheck.x > cell.x)
+		       				celltocheck.exits.west = false;
+		       			
+
+			       		if(this.checkcell(celltocheck, baddie.IQ))
 			       		{
+			       			//  open the entrance
+		       			
+			       			if (celltocheck.y < cell.y)
+			       				celltocheck.exits.south = true;
+			       			else
+			       			if (celltocheck.y > cell.y)
+			       				celltocheck.exits.north = true;
+			       			else	
+			       		    if (celltocheck.x < cell.x)
+			       				celltocheck.exits.east = true;
+			       			else	
+			       			if (celltocheck.x > cell.x)
+			       				celltocheck.exits.west = true;
+		       			
 			       			dinfo += 'Moving to ' + this.formatcell(baddie.nextcells[i].newcell) + nl;
 			       			this.movebaddie(baddie, cell, baddie.nextcells[i].newcell);
 			       			break;
@@ -214,6 +253,20 @@ var playState = {
 			       			dinfo+= 'YUK' + nl;
 			       			baddie.nextcells[i].good = false;
 			       		}
+
+			       		//  open the entrance
+		       			
+		       			if (celltocheck.y < cell.y)
+		       				celltocheck.exits.south = true;
+		       			else
+		       			if (celltocheck.y > cell.y)
+		       				celltocheck.exits.north = true;
+		       			else	
+		       		    if (celltocheck.x < cell.x)
+		       				celltocheck.exits.east = true;
+		       			else	
+		       			if (celltocheck.x > cell.x)
+		       				celltocheck.exits.west = true;
 			       	}
 				}
 
@@ -294,25 +347,11 @@ var playState = {
     		return true;
     	}
 
-		if (IQ == 0.5)  
+	 	if (IQ >= 1)
     	{
-    		//  special mode looking for no exits at all (used by IQ=2)
-    		var c = 0;
-    		
-    		if (nextcell.exits.north) c = c + 1;
-    		if (nextcell.exits.east) c = c + 1;
-    		if (nextcell.exits.south) c = c + 1;
-    		if (nextcell.exits.west) c = c + 1;
-
-    		if (c == 2)
-    			return true;
-    		else
-    			return false;
-
-    	}
-
-    	if (IQ >= 1)
-    	{
+    		//  check for nobrainer
+    		 if(this.getgoodieincell(nextcell) != null)
+    		 	return true;
     		//  toddler so Avoid single cell dead ends
     		var c = 0;
     		
@@ -321,7 +360,7 @@ var playState = {
     		if (nextcell.exits.south) c = c + 1;
     		if (nextcell.exits.west) c = c + 1;
 
-    		if (c <= 1)
+    		if (c == 0)
     			return false;
 
     	}
@@ -330,6 +369,10 @@ var playState = {
     	{
     		//  Out of nursery school so avoid two cell dead ends
 
+    		//  check for nobrainer
+ 			if(this.getgoodieincell(nextcell) != null)
+    		 	return true;
+
     		var c = 0;
 
     		if (nextcell.exits.north)
@@ -337,10 +380,10 @@ var playState = {
     			//  check if the cell to the north is a deadend
 
     			var nc = this.getcell(nextcell.cellx, nextcell.celly - 1);
-    			//nc.exits.south = false;
-    			if (this.checkcell(nc,0.5))
+    			nc.exits.south = false;
+    			if (this.checkcell(nc,IQ - 1))
     				c = c + 1;
-    			//nc.exits.south = true;    		
+    			nc.exits.south = true;    		
     		}
 
 			if (nextcell.exits.east)
@@ -348,10 +391,10 @@ var playState = {
     			//  check if the cell to the east is a deadend
 
     			var nc = this.getcell(nextcell.cellx + 1, nextcell.celly );
-    			//nc.exits.west = false;
-    			if (this.checkcell(nc,0.5))
+    			nc.exits.west = false;
+    			if (this.checkcell(nc,IQ - 1))
     				c = c + 1;
-    			//nc.exits.west = true;
+    			nc.exits.west = true;
     		}
 
     		if (nextcell.exits.south)
@@ -359,10 +402,10 @@ var playState = {
     			//  check if the cell to the south is a deadend
 
     			var nc = this.getcell(nextcell.cellx, nextcell.celly + 1);
-    			//nc.exits.north = false;
-    			if (this.checkcell(nc,0.5))
+    			nc.exits.north = false;
+    			if (this.checkcell(nc,IQ - 1))
     				c = c + 1;
-    			//nc.exits.north = true;
+    			nc.exits.north = true;
     		}
 
     		if (nextcell.exits.west)
@@ -370,10 +413,10 @@ var playState = {
     			//  check if the cell to the west is a deadend
 
     			var nc = this.getcell(nextcell.cellx - 1, nextcell.celly);
-    			//nc.exits.east = false;
-    			if (this.checkcell(nc,0.5))
+    			nc.exits.east = false;
+    			if (this.checkcell(nc, IQ - 1))
     				c = c + 1;
-    			//nc.exits.east = true;
+    			nc.exits.east = true;
     		}
 			
 			//  so if all exits are single cell deadends then this cell is a 2 cell deadend
@@ -435,8 +478,21 @@ var playState = {
  
         game.physics.p2.enable(player);
 
-        game.camera.follow(player);
+        game.camera.follow(baddies.children[0]);
 
+    },
+
+    getgoodieincell: function(cell)
+    {
+
+    	for(var i = 0; i< goodies.length; i++)
+    	{
+    		var g = goodies.children[i];
+    		if(g.cellx == cell.cellx && g.celly == cell.celly)
+    			return g;
+
+    	}
+    	return null;
     },
 
     addcaches: function(no, type) {
@@ -444,8 +500,10 @@ var playState = {
         // make sure they are not on top of a baddie (at least 5 away maybe)
         for (var i = 0; i < no; i++)
         {
-            var c = converttomaveposition({x: Math.floor(Math.random() * mazedim.x),y: Math.floor(Math.random() * mazedim.y)}, m, type);
-            var b = addgoodie(type +  'maze', c.x, c.y, true);
+        	var x = Math.floor(Math.random() * mazedim.x);
+        	var y = Math.floor(Math.random() * mazedim.y);
+            var c = converttomaveposition({x: x,y: y}, m, type);
+            var b = addgoodie(type +  'maze', c.x, c.y, true, x , y);
         }
 
     },

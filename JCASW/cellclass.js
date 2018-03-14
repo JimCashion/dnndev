@@ -1,7 +1,7 @@
 //  Extended goodie 'class'
 Cell = function (game, x, y, cellx, celly) {
   
-    Phaser.Sprite.call(this, game, x, y, 'mazewall2');
+    Phaser.Sprite.call(this, game, x, y, 'mazewall0');
 
     this.cellx = cellx;
     this.celly = celly;

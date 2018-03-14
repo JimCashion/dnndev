@@ -1,5 +1,5 @@
 //  Extended goodie 'class'
-Goodie = function (game, x, y, spritename, goodietype, constraint, constraingtype, relative_x) {
+Goodie = function (game, x, y, spritename, goodietype, constraint, constraingtype, relative_x, cellx, celly) {
 
     Phaser.Sprite.call(this, game, x, y, spritename);
 
@@ -8,6 +8,8 @@ Goodie = function (game, x, y, spritename, goodietype, constraint, constraingtyp
     this.constraingtype = constraingtype;
     this.constraint = constraint;
     this.relative_x = relative_x;
+    this.cellx = cellx;
+    this.celly = celly;
 
     if(this.constraint != null)
     {
@@ -30,7 +32,10 @@ Goodie = function (game, x, y, spritename, goodietype, constraint, constraingtyp
         this.start_x = 0;
         this.end_x = 0;
         
+
     }
+
+  
 };
 
 Goodie.prototype = Object.create(Phaser.Sprite.prototype);

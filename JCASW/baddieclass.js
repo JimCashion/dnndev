@@ -14,7 +14,7 @@ Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttyp
 
     this.mazespeed = 100;
     this.inmaze = inmaze;
-    this.IQ = 2;
+    this.IQ = 100;
     this.cellx = 0;
     this.celly = 0
     this.targetcell = null;

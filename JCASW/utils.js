@@ -405,9 +405,16 @@ function addbaddie(spritename,constrainttype, constraint, type, relative_x, abso
 
 }
 
-function addgoodie(spritename,x,y, nophysics) {
+function addgoodie(spritename,x,y, nophysics, cellx, celly) {
 
-        goodie = new Goodie(game, x, y, spritename);
+        var type = '';
+        if (spritename.startsWith('trad'))
+            type = 'trad';
+
+        if (spritename.startsWith('nano'))
+            type = 'nano';
+
+        goodie = new Goodie(game, x, y, spritename, type, null, null, null, cellx, celly);
         goodies.add(goodie);
 
         if(!nophysics)
