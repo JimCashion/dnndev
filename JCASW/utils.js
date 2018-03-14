@@ -198,6 +198,9 @@ function LoadBackgroundDinos()
 
 function confirmwin()
 {
+
+    c_sprites = [];
+
     showcoords(getPrize());
     
 
@@ -255,10 +258,29 @@ function confirmwin()
 
        // game.input.onDown.add(this.carryon, this);
 
-       
+       //  wait until the coordinates are readable
+
+       // var proceed = true;
+       // do
+       // {
+       //      proceed = true;
+
+       //      for (var i = 0; i < c_sprites.length; i++)
+       //      {
+       //          var s = c_sprites[i];
+       //          if (!s.donex || !s.doney)
+       //              proceed = false;
+       //      }    
+           
+       //     game.input.onDown.addOnce(function () { });          
+
+       // } while(!proceed) 
+
         //the "click to restart" handler
         game.input.onDown.addOnce(function () {           
        
+
+
         score = 0;
         startvelocity = 0;
         liftDirection = -1
@@ -344,7 +366,14 @@ function addledge( spritename,  x, y,  ledgetype, scalex, scaley) {
 
 function addbaddie(spritename,constrainttype, constraint, type, relative_x, absolute) {
 
-    var baddie = new Baddie(game, 32, game.world.height - 150, type, spritename, constraint,  constrainttype, relative_x, absolute);
+    var inmaze = false;
+    if(constrainttype == 'mazeroamer')
+    {
+        constrainttype = 'roamer';
+        inmaze = true;
+    }
+
+    var baddie = new Baddie(game, 32, game.world.height - 150, type, spritename, constraint,  constrainttype, relative_x, absolute, inmaze);
     baddies.add(baddie);
 
     game.physics.arcade.enable(baddie);
@@ -353,43 +382,51 @@ function addbaddie(spritename,constrainttype, constraint, type, relative_x, abso
     baddie.animations.add('still', [2], 10, true);
    // baddie.body.collideWorldBounds = true;
 
-    if(constrainttype=='absolute' || constrainttype=='roamer')
+    if(!inmaze)
     {
-        baddie.body.velocity.x = absolute.vel_xl
-        baddie.body.velocity.y = absolute.vel_y;
-        baddie.body.immovable = true;
+        if(constrainttype=='absolute' || constrainttype=='roamer')
+        {
 
-       
-    }
-    else
-    {
-        baddie.body.velocity.x = 100;
-        baddie.body.immovable = true;
+            baddie.body.velocity.x = absolute.vel_xl
+            baddie.body.velocity.y = absolute.vel_y;
+           
+
+           
+        }
+        else
+        {
+            baddie.body.velocity.x = 100;
+           
+        }
     }
 
+    baddie.body.immovable = true;
     return baddie;
 
 }
 
-function addgoodie(spritename,x,y) {
+function addgoodie(spritename,x,y, nophysics) {
 
         goodie = new Goodie(game, x, y, spritename);
         goodies.add(goodie);
 
-	    goodie.body.gravity.y = 30;
+        if(!nophysics)
+        {
+    	    goodie.body.gravity.y = 30;
 
-        goodie.body.collideWorldBounds = true;
-        //  This just gives each goodie a slightly random bounce value
-        goodie.body.bounce.y = 1;
-        goodie.body.bounce.x = 1;
-        goodie.body.velocity.x = Math.floor(Math.random() * 200) - 100;
+            goodie.body.collideWorldBounds = true;
+            //  This just gives each goodie a slightly random bounce value
+            goodie.body.bounce.y = 1;
+            goodie.body.bounce.x = 1;
+            goodie.body.velocity.x = Math.floor(Math.random() * 200) - 100;
+        }
 
 }
 
 function showcoords(a) {
     
  
-     var x = 0;
+     var x = 10;
      var y = 0;
    
     for(var i = 0; i<a.length - 1; i+=2)
@@ -398,7 +435,7 @@ function showcoords(a) {
         {
     	   
 	            y += 120;
-	            x=0;
+	            x=10;
 	           
         }
     	 else
@@ -408,7 +445,11 @@ function showcoords(a) {
     	   for(var j = 0; j<a.substring(i + 1, i + 2); j++)
 	        {
 	            y -= 20;
-	            d = game.add.sprite(x, y, 'cachesmall');
+	            d = game.add.sprite((Math.random() * 800),  (Math.random() * 600), 'cachesmall');
+                
+                game.physics.arcade.enable(d);
+                c_sprites.push({sprite: d, x: x, y: y, donex: false, doney: false});
+            
 
             }
         }
@@ -418,7 +459,10 @@ function showcoords(a) {
     	   for(var j = 0; j<a.substring(i + 1, i + 2); j++)
 	        {
 	            x += 20;
-	            d = game.add.sprite(x, y, 'cachesmall');
+	           d = game.add.sprite((Math.random() * 800),  (Math.random() * 600), 'cachesmall');
+                
+                game.physics.arcade.enable(d);
+                c_sprites.push({sprite: d, x: x, y: y, donex: false, doney: false});
             }
         }
  else
@@ -428,7 +472,12 @@ function showcoords(a) {
     	   for(var j = 0; j<a.substring(i + 1, i + 2); j++)
 	        {
 	            y += 20;
-	            d = game.add.sprite(x, y, 'cachesmall');
+                //d = game.add.sprite((Math.random() * 800), (Math.random() * 600), 'cachesmall');
+                d = game.add.sprite((Math.random() * 800),  (Math.random() * 600), 'cachesmall');
+                
+                game.physics.arcade.enable(d);
+                c_sprites.push({sprite: d, x: x, y: y, donex: false, doney: false});
+               
             }
         }
  else
@@ -437,7 +486,10 @@ function showcoords(a) {
     	   for(var j = 0; j<a.substring(i + 1, i + 2); j++)
 	        {
 	            x -= 20;
-	            d = game.add.sprite(x, y, 'cachesmall');
+	            d = game.add.sprite((Math.random() * 800),  (Math.random() * 600), 'cachesmall');
+                
+                game.physics.arcade.enable(d);
+                c_sprites.push({sprite: d, x: x, y: y, donex: false, doney: false});
             }
         }
         else if  (a.substring(i , i + 1) == "5") 

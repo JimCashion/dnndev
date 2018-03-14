@@ -26,7 +26,7 @@ var menuState = {
 	    click.setTextBounds(0, 500, game.world.width, game.world.height);
 
 		game.input.onTap.addOnce(function () {           
-      
+      aliens_moving = true;
 	        score = 0;
 	        game.state.start('play');
         

@@ -1,5 +1,5 @@
 //  Extended baddie 'class'
-Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttype, relative_x, absolutecoords) {
+Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttype, relative_x, absolutecoords, inmaze) {
 
     Phaser.Sprite.call(this, game, x, y, spritename);
 
@@ -10,8 +10,31 @@ Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttyp
     this.relative_x = relative_x;
     this.orientation = 'h';
 
-    this.anxiety = 0;
+    //  maze stuff
 
+    this.mazespeed = 100;
+    this.inmaze = inmaze;
+    this.IQ = 2;
+    this.cellx = 0;
+    this.celly = 0
+    this.targetcell = null;
+    this.nextcells = [];
+    this.prevcellx = 0;
+    this.prevcelly = 0;
+    this.cellmemory = [];
+
+    for(var i = 0; i< mazedim.x; i++)
+    {
+        for(var j = 0; j< mazedim.y; j++)
+        {
+            this.cellmemory.push(null);
+        }
+
+    }
+
+    //  sheepdog
+    this.anxiety = 0;
+ 
     this.inpen = false;
     this.targetno = 0;
     this.currenttarget = targets[this.targetno];
@@ -77,6 +100,10 @@ Baddie.prototype.constructor = Baddie;
 
 
 Baddie.prototype.update = function() {
+
+    //  pass control to the game if we are in a maze
+    if(this.inmaze)
+        return;
 
     //  turn off bolting
 

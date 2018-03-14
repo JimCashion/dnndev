@@ -63,7 +63,7 @@ function getTitle(){
 function getInstructions(){
 	var a;
 	if (!IsMobile())
-		a = "Use the Arrow keys on your keyboard to move left or right and the up arrow to jump";
+		a = "Traverse the maze and find caches before the dnos";
 	else
 		a = "Touch to the left or right of the player to move and above the player to jump";
 
@@ -73,8 +73,8 @@ function getInstructions(){
 
 function getMission(){
 	
-	var a = "Collect 200 nano caches and avoid the dinosaurs.  Be warned, some are just nasty and will push you around, others will simply kill you!!";
-
+	var a = "Collect xx caches";
+	
 	return a;
 
 }

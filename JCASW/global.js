@@ -1,5 +1,6 @@
 pen = null;
 pentext = null;
+nl = "<br>";
 
 gate1out = null;
 gate1 = null;
@@ -11,6 +12,8 @@ gate2 = null;
 gate2in  = null;
 gate2text = null;
 
+var c_sprites = [];
+var win_continue = false;
 
 gridsize = 4;
 original = [];
@@ -20,7 +23,7 @@ var goody_properties = [];
 var score = 0;
 var winscore = 10;   //  number of nanos to collect
 var scoreText;
-var startvelocity_x = 4
+var startvelocity_x = 0
 var startvelocity_y = 0;
 
 dog_proximity = 150;

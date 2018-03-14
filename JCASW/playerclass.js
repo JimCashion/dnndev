@@ -1,10 +1,14 @@
 //  Extended Player 'class'
-Player = function (game, x, y, type) {
+Player = function (game, x, y, type, sprite) {
+
 
     if (type != null)
     {
-        
-        Phaser.Sprite.call(this, game, x, y, 'dudesmall');
+
+        if(sprite == null)
+            Phaser.Sprite.call(this, game, x, y, 'dudesmall');
+        else
+            Phaser.Sprite.call(this, game, x, y, sprite);
         this.type = type;
     }
     else
@@ -62,17 +66,32 @@ Player.prototype.update = function() {
 	    {
 	        //  Move up
 	        this.body.velocity.y = -1 * playerspeed
-
-	        this.animations.play('right');
+ 
+	        //this.animations.play('right');
 	    }
 	    else 
 	    if (cursors.down.isDown || (game.input.pointer1.isDown && touchdown()))
 	    {
 	        //  Move down
 	        this.body.velocity.y = playerspeed;
-
-	        this.animations.play('right');
+ 
+	       // this.animations.play('right');
 	    }
+        if (cursors.left.isDown || (game.input.pointer1.isDown && touchleft()))
+        {
+            //  Move to the left
+            this.body.velocity.x = -1 * playerspeed;
+
+            this.animations.play('left');
+        }
+        else 
+        if (cursors.right.isDown || (game.input.pointer1.isDown && touchright()))
+        {
+            //  Move to the right
+            this.body.velocity.x = playerspeed;
+
+            this.animations.play('right');
+        }
 	    else
 	    {
 	        //  Stand still

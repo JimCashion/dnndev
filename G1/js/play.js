@@ -105,6 +105,22 @@ var playState = {
 
 	update: function() {
 
+        // for (var i = 0; i < c_sprites.length; i++)
+        // {
+        //     var s = c_sprites[i];
+
+        //     var dx = s.x - s.sprite.x;
+        //     var dy = s.y - s.sprite.y;
+
+        //     var diag = 150;   //  perceived velocits towards target
+
+        //     var angle = Math.atan(dy / dx);   
+   
+        //     s.sprite.body.velocity.x = diag * Math.cos(angle);
+        //     s.sprite.body.velocity.x = diag * Math.sin(angle);
+
+        // }
+
 	 
       	//  Collide the player and the stars with the platforms
         hitPlatform = game.physics.arcade.collide(player, platforms);
