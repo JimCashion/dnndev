@@ -207,7 +207,7 @@ var playState = {
 
 		       	
 
-		       	//  check each possible cell until we find a nice ine and then move to it
+		       	//  check each possible cell until we find a nice one and then move to it
 				for(var i = 0; i<baddie.nextcells.length; i++)
 		       	{
 		       		if(baddie.nextcells[i].good)
@@ -315,8 +315,8 @@ var playState = {
 
     },
 
-    movebaddie(baddie, fromcell, tocell)
-    {
+    movebaddie: function(baddie, fromcell, tocell)
+	{
     	//  move from current cell to next cell
 
     	if (fromcell.cellx == tocell.cellx)
