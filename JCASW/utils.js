@@ -427,7 +427,7 @@ function addgoodie(spritename,x,y, nophysics, cellx, celly) {
             goodie.body.bounce.x = 1;
             goodie.body.velocity.x = Math.floor(Math.random() * 200) - 100;
         }
-
+        return goodie;
 }
 
 function showcoords(a) {

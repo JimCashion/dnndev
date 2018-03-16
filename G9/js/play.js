@@ -126,7 +126,7 @@ var playState = {
 		    		//alert(g.goodietype);
 		    	}
 
-		        cell.loadTexture('mazewall1', 0);
+		        //cell.loadTexture('mazewall1', 0);
 		        baddie.prevcellx = baddie.cellx;
 		        baddie.prevcelly = baddie.celly;
 		        baddie.cellx = cell.cellx;
@@ -205,11 +205,18 @@ var playState = {
 		       		dinfo += this.formatcell(baddie.nextcells[i].newcell) + ' - ' + baddie.nextcells[i].good + nl;
 		       	}
 
+<<<<<<< refs/remotes/origin/master
 		       	
 
 		       	//  check each possible cell until we find a nice one and then move to it
+=======
+		       	//populate baddie info with cache distances
+		       	baddie.targettype = '';
+    			baddie.distanceToCaches = [];
+>>>>>>> now collects caches - simplistically
 				for(var i = 0; i<baddie.nextcells.length; i++)
 		       	{
+		       		var celltocheck = baddie.nextcells[i].newcell;
 		       		if(baddie.nextcells[i].good)
 		       		{
 		       			var celltocheck = baddie.nextcells[i].newcell
@@ -226,9 +233,55 @@ var playState = {
 		       			else	
 		       			if (celltocheck.x > cell.x)
 		       				celltocheck.exits.west = false;
+		       		
+		       			this.checkcell(celltocheck, baddie, 'all', celltocheck, baddie.IQ)
+
+		       			if (celltocheck.y < cell.y)
+			       				celltocheck.exits.south = true;
+			       			else
+			       			if (celltocheck.y > cell.y)
+			       				celltocheck.exits.north = true;
+			       			else	
+			       		    if (celltocheck.x < cell.x)
+			       				celltocheck.exits.east = true;
+			       			else	
+			       			if (celltocheck.x > cell.x)
+			       				celltocheck.exits.west = true;
+			       	}
+		       	}
+				
+				dinfo += "Cache Distance List:" + nl;
+		       	for(var i = 0; i<baddie.distanceToCaches.length; i++)
+		       	{
+		       		dinfo += this.formatcell(baddie.distanceToCaches[i].cell) + ' - ' + baddie.distanceToCaches[i].type + ' - ' + baddie.distanceToCaches[i].distance + nl;
+		       	}
+
+
+				//  sort these so each baddie heads for the closest
+			    this.sortnextcells(baddie.nextcells);
+
+		       	//  check each possible cell until we find a nice one and then move to it
+				for(var i = 0; i<baddie.nextcells.length; i++)
+		       	{
+		       		if(baddie.nextcells[i].good)
+		       		{
+		       			var celltocheck = baddie.nextcells[i].newcell;
+		       			//  close the entrance
+		       			
+		       			if (celltocheck.y < cell.y)
+		       				celltocheck.exits.south = false;
+		       			else
+		       			if (celltocheck.y > cell.y)
+		       				celltocheck.exits.north = false;
+		       			else	
+		       		    if (celltocheck.x < cell.x)
+		       				celltocheck.exits.east = false;
+		       			else	
+		       			if (celltocheck.x > cell.x)
+		       				celltocheck.exits.west = false;
 		       			
 
-			       		if(this.checkcell(celltocheck, baddie.IQ))
+			       		if(this.checkcell(celltocheck, baddie, '', celltocheck, baddie.IQ))
 			       		{
 			       			//  open the entrance
 		       			
@@ -293,6 +346,16 @@ var playState = {
 					}
 
 				}
+
+				//  echo out the cache count
+				dinfo += nl + "Caches Collected" + nl;
+				for(var i = 0; i< baddie.cachecount.length; i++)
+				{
+					dinfo += baddie.cachecount[i].type + ': ' +  baddie.cachecount[i].count + nl;
+
+				}
+				
+
 		      
 		    }
 		}
@@ -316,7 +379,11 @@ var playState = {
     },
 
     movebaddie: function(baddie, fromcell, tocell)
+<<<<<<< refs/remotes/origin/master
 	{
+=======
+    {
+>>>>>>> now collects caches - simplistically
     	//  move from current cell to next cell
 
     	if (fromcell.cellx == tocell.cellx)
@@ -337,12 +404,34 @@ var playState = {
 
     },
 
-    checkcell: function(nextcell, IQ)
+    checkcell: function(origcell, baddie, goodietype, nextcell, IQ)
     {
     	
     	//  new born
     	if(IQ == 0)
     	{
+    		//  check for nobrainer
+    		if(this.getgoodieincell(nextcell) != null)
+    		{
+    			if (goodietype == 'all' || goodietype == this.getgoodieincell(nextcell).goodietype)
+    			{
+    				var found = false;
+    				for(var i = 0; i< baddie.distanceToCaches.length; i++)
+    				{
+    					if (baddie.distanceToCaches[i].type == this.getgoodieincell(nextcell).goodietype)
+    						found = true;
+    				}
+    				if (!found)
+    				{
+		    			baddie.distanceToCaches.push({cell: origcell, type: this.getgoodieincell(nextcell).goodietype, distance: baddie.IQ - IQ});
+		    			if (baddie.distanceToCaches.length == 2)
+		    		 		return true;
+		    		}
+	    		 }
+	    		 else
+	    		 	 return true;
+    		}
+
     		//  DOH!!
     		return true;
     	}
@@ -350,8 +439,27 @@ var playState = {
 	 	if (IQ >= 1)
     	{
     		//  check for nobrainer
-    		 if(this.getgoodieincell(nextcell) != null)
-    		 	return true;
+    		if(this.getgoodieincell(nextcell) != null)
+    		{
+    			if (goodietype == 'all' || goodietype == this.getgoodieincell(nextcell).goodietype)
+    			{
+    				var found = false;
+    				for(var i = 0; i< baddie.distanceToCaches.length; i++)
+    				{
+    					if (baddie.distanceToCaches[i].type == this.getgoodieincell(nextcell).goodietype)
+    						found = true;
+    				}
+    				if (!found)
+    				{
+		    			baddie.distanceToCaches.push({cell: origcell, type: this.getgoodieincell(nextcell).goodietype, distance: baddie.IQ - IQ});
+		    			if (baddie.distanceToCaches.length == 2)
+		    		 		return true;
+		    		}
+	    		 }
+	    		 else
+	    		 	 return true;
+    		}
+
     		//  toddler so Avoid single cell dead ends
     		var c = 0;
     		
@@ -371,7 +479,25 @@ var playState = {
 
     		//  check for nobrainer
  			if(this.getgoodieincell(nextcell) != null)
-    		 	return true;
+    		{
+    			if (goodietype == 'all' || goodietype == this.getgoodieincell(nextcell).goodietype)
+    			{
+    				var found = false;
+    				for(var i = 0; i< baddie.distanceToCaches.length; i++)
+    				{
+    					if (baddie.distanceToCaches[i].type == this.getgoodieincell(nextcell).goodietype)
+    						found = true;
+    				}
+    				if (!found)
+    				{
+		    			baddie.distanceToCaches.push({cell: origcell, type: this.getgoodieincell(nextcell).goodietype, distance: baddie.IQ - IQ});
+		    			if (baddie.distanceToCaches.length == 2)
+		    		 		return true;
+		    		}
+	    		 }
+	    		 else
+	    		 	 return true;
+    		}
 
     		var c = 0;
 
@@ -381,7 +507,7 @@ var playState = {
 
     			var nc = this.getcell(nextcell.cellx, nextcell.celly - 1);
     			nc.exits.south = false;
-    			if (this.checkcell(nc,IQ - 1))
+    			if (this.checkcell(origcell, baddie, goodietype, nc,IQ - 1))
     				c = c + 1;
     			nc.exits.south = true;    		
     		}
@@ -392,7 +518,7 @@ var playState = {
 
     			var nc = this.getcell(nextcell.cellx + 1, nextcell.celly );
     			nc.exits.west = false;
-    			if (this.checkcell(nc,IQ - 1))
+    			if (this.checkcell(origcell, baddie, goodietype, nc,IQ - 1))
     				c = c + 1;
     			nc.exits.west = true;
     		}
@@ -403,7 +529,7 @@ var playState = {
 
     			var nc = this.getcell(nextcell.cellx, nextcell.celly + 1);
     			nc.exits.north = false;
-    			if (this.checkcell(nc,IQ - 1))
+    			if (this.checkcell(origcell, baddie, goodietype, nc,IQ - 1))
     				c = c + 1;
     			nc.exits.north = true;
     		}
@@ -414,7 +540,7 @@ var playState = {
 
     			var nc = this.getcell(nextcell.cellx - 1, nextcell.celly);
     			nc.exits.east = false;
-    			if (this.checkcell(nc, IQ - 1))
+    			if (this.checkcell(origcell, baddie, goodietype, nc, IQ - 1))
     				c = c + 1;
     			nc.exits.east = true;
     		}
@@ -468,6 +594,13 @@ var playState = {
     	return cells;
     },
 
+    sortnextcells(cells)
+    {
+    	//  randomize the list of next cells to check to make it a bit more interesting
+    	//  DEV:  only add code once the rest is tested so movement are more predictable until that time
+    	return cells;
+    },
+
     addrandmplayer: function() {
 
         // make sure we are not on top of a baddie or a cache (at least 5 away maybe)
@@ -487,10 +620,10 @@ var playState = {
 
     	for(var i = 0; i< goodies.length; i++)
     	{
-    		var g = goodies.children[i];
-    		if(g.cellx == cell.cellx && g.celly == cell.celly)
-    			return g;
 
+    		var g = goodies.children[i];
+	    		if(g.cellx == cell.cellx && g.celly == cell.celly)
+	    			return g;
     	}
     	return null;
     },
@@ -504,6 +637,7 @@ var playState = {
         	var y = Math.floor(Math.random() * mazedim.y);
             var c = converttomaveposition({x: x,y: y}, m, type);
             var b = addgoodie(type +  'maze', c.x, c.y, true, x , y);
+            game.physics.arcade.enable(b);
         }
 
     },
@@ -537,6 +671,8 @@ var playState = {
     
 
         game.physics.arcade.collide(baddies, cells, playState.enterCell, null, this);
+
+        game.physics.arcade.overlap(baddies, goodies, playState.baddiefoundcache, null, this);
 	 
         hitPlatform = game.physics.arcade.collide(player, platforms);
 
@@ -544,6 +680,41 @@ var playState = {
 
 
 	},
+
+    baddiefoundcache: function (baddie, goodie) {
+
+    	//  increase the cache cound for this baddie
+    	var updatedcount = false;
+
+        for(var i = 0; i< baddie.cachecount.length; i++)
+        {
+        	//alert(baddie.cachecount[i].type + ' - ' + goodie.goodietype)
+        	if (baddie.cachecount[i].type == goodie.goodietype)
+        	{
+				updatedcount = true;
+				baddie.cachecount[i].count = baddie.cachecount[i].count + 1;
+        	}
+		}
+
+		if(!updatedcount)
+			baddie.cachecount.push({type: goodie.goodietype, count: 1});
+		
+
+        // kill and reinstate the cache
+
+    	goodie.kill();
+    	goodies.remove(goodie);
+        this.addcaches(1,goodie.goodietype);
+
+        //  clear all baddies memory
+
+        for(var i = 0; i< baddies.length; i++)
+        {
+        	baddies.children[i].cellmemory = [];
+
+
+        }
+    },
 
     getcell: function(x,y)
     {

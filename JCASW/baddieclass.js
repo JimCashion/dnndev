@@ -9,9 +9,12 @@ Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttyp
     this.constraint = constraint;
     this.relative_x = relative_x;
     this.orientation = 'h';
+    this.cachecount = [];
 
     //  maze stuff
 
+    this.targettype = '';
+    this.distanceToCaches = [];
     this.mazespeed = 100;
     this.inmaze = inmaze;
     this.IQ = 100;
