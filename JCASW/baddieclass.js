@@ -14,6 +14,7 @@ Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttyp
     //  maze stuff
 
     this.targettype = '';
+    this.distancetotarget = 0;
     this.distanceToCaches = [];
     this.mazespeed = 100;
     this.inmaze = inmaze;
@@ -43,7 +44,10 @@ Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttyp
     this.currenttarget = targets[this.targetno];
     this.currentplace = {name: 'ground', revert: 'none'};
 
+
     this.inpen = false;
+
+  
 
     this.followingbolter = false;
 
@@ -96,6 +100,9 @@ Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttyp
             this.end_x = 0;
         }
     }
+
+      this.targetsprite = game.add.sprite(this.x, this.y - 5, 'tradmaze');
+      this.targetsprite.scale.setTo(.5,.5);
 };
 
 Baddie.prototype = Object.create(Phaser.Sprite.prototype);
@@ -203,10 +210,7 @@ Baddie.prototype.update = function() {
              if(doginfo.H < dog_proximity)
              {
 
-                  //  alert(doginfo.H + ' - ' + doginfo.DX + ' - ' + doginfo.DY + ' - ' + doginfo.A + ' - ' + doginfo.O);
-                  var diagvelocity = (dog_proximity + dino_minspeed) - doginfo.H;
-                  
-             //   alert(diagvelocity);
+                var diagvelocity = (dog_proximity + dino_minspeed) - doginfo.H;
 
                 if(doginfo.DX > 0)
                     this.body.velocity.x =  Math.abs(Math.cos(doginfo.Angle)) * diagvelocity * -2;

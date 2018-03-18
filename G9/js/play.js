@@ -1,5 +1,12 @@
 var playState = {
 
+	//  make baddies go for closest cache
+	//  if no target then go into zero IQ mode 
+	//  Stop player, caches, and beddies overlapping
+	//  end game detection
+	//  baddie/player collision
+
+
 	 render: function() {
 
    
@@ -15,7 +22,7 @@ var playState = {
 
         debugoffset = 0;
         bs = 10;  //  block size
-        mazedim = {x: 10, y: 10};   //  4-*30 is good
+        mazedim = {x: 20, y: 15};   //  4-*30 is good
 
         //  Set up the game items and layout here
 
@@ -93,11 +100,15 @@ var playState = {
         	}
         }
         //  add some baddies
-        this.adddinos(1);
+        this.adddinos(5);
 
         //  now add a goodie
-        this.addcaches(1, 'nano');
         this.addcaches(1, 'trad');
+        this.addcaches(1, 'myst');
+        this.addcaches(1, 'virt');
+		this.addcaches(1, 'mult');
+		this.addcaches(1, 'lett');
+
 
         //  add the player
         this.addrandmplayer();
@@ -108,18 +119,18 @@ var playState = {
 
     
 	    currentcell = cell;
-	    
+	    var dinfo = '';
 	    if (baddie.targetcell == null || (cell.cellx == baddie.targetcell.cellx && cell.celly == baddie.targetcell.celly))
 	    {
 	    	//  only consider it entered if we are in the middle
 
 	    	if(this.baddieincenterofcell(cell, baddie))
 	    	{
-	    		
+	    	
 		    	//  we have entered a new cell
 
 		    	//  is there a goodie in here?
-
+		    	//  delete this
 		    	var g = this.getgoodieincell(cell);
 		    	if(g != null)
 		    	{
@@ -140,7 +151,7 @@ var playState = {
 		    	
 		        dinfo += "Entering " + this.formatcell(cell)+ nl;
 
-				//  if we have been ehre before then lets use our memory
+				//  if we have been here before then lets use our memory
 
 	    		var memorynextcells = baddie.cellmemory[cell.cellx * mazedim.x + cell.celly];
 				if(memorynextcells != null)
@@ -205,17 +216,17 @@ var playState = {
 		       		dinfo += this.formatcell(baddie.nextcells[i].newcell) + ' - ' + baddie.nextcells[i].good + nl;
 		       	}
 
-
-		       	//populate baddie info with cache distances
+		    	//populate baddie info with cache distances
 		       	baddie.targettype = '';
-    			baddie.distanceToCaches = [];
+		       	baddie.targetsprite.loadTexture("maze");
+		       	baddie.distancetotarget = 0;
+				baddie.distanceToCaches = [];
 
 				for(var i = 0; i<baddie.nextcells.length; i++)
 		       	{
 		       		var celltocheck = baddie.nextcells[i].newcell;
 		       		if(baddie.nextcells[i].good)
 		       		{
-		       			var celltocheck = baddie.nextcells[i].newcell
 		       			//  close the entrance
 		       			
 		       			if (celltocheck.y < cell.y)
@@ -233,80 +244,7 @@ var playState = {
 		       			this.checkcell(celltocheck, baddie, 'all', celltocheck, baddie.IQ)
 
 		       			if (celltocheck.y < cell.y)
-			       				celltocheck.exits.south = true;
-			       			else
-			       			if (celltocheck.y > cell.y)
-			       				celltocheck.exits.north = true;
-			       			else	
-			       		    if (celltocheck.x < cell.x)
-			       				celltocheck.exits.east = true;
-			       			else	
-			       			if (celltocheck.x > cell.x)
-			       				celltocheck.exits.west = true;
-			       	}
-		       	}
-				
-				dinfo += "Cache Distance List:" + nl;
-		       	for(var i = 0; i<baddie.distanceToCaches.length; i++)
-		       	{
-		       		dinfo += this.formatcell(baddie.distanceToCaches[i].cell) + ' - ' + baddie.distanceToCaches[i].type + ' - ' + baddie.distanceToCaches[i].distance + nl;
-		       	}
-
-
-				//  sort these so each baddie heads for the closest
-			    this.sortnextcells(baddie.nextcells);
-
-		       	//  check each possible cell until we find a nice one and then move to it
-				for(var i = 0; i<baddie.nextcells.length; i++)
-		       	{
-		       		if(baddie.nextcells[i].good)
-		       		{
-		       			var celltocheck = baddie.nextcells[i].newcell;
-		       			//  close the entrance
-		       			
-		       			if (celltocheck.y < cell.y)
-		       				celltocheck.exits.south = false;
-		       			else
-		       			if (celltocheck.y > cell.y)
-		       				celltocheck.exits.north = false;
-		       			else	
-		       		    if (celltocheck.x < cell.x)
-		       				celltocheck.exits.east = false;
-		       			else	
-		       			if (celltocheck.x > cell.x)
-		       				celltocheck.exits.west = false;
-		       			
-
-			       		if(this.checkcell(celltocheck, baddie, '', celltocheck, baddie.IQ))
-			       		{
-			       			//  open the entrance
-		       			
-			       			if (celltocheck.y < cell.y)
-			       				celltocheck.exits.south = true;
-			       			else
-			       			if (celltocheck.y > cell.y)
-			       				celltocheck.exits.north = true;
-			       			else	
-			       		    if (celltocheck.x < cell.x)
-			       				celltocheck.exits.east = true;
-			       			else	
-			       			if (celltocheck.x > cell.x)
-			       				celltocheck.exits.west = true;
-		       			
-			       			dinfo += 'Moving to ' + this.formatcell(baddie.nextcells[i].newcell) + nl;
-			       			this.movebaddie(baddie, cell, baddie.nextcells[i].newcell);
-			       			break;
-			       		}	
-			       		else
-			       		{
-			       			dinfo+= 'YUK' + nl;
-			       			baddie.nextcells[i].good = false;
-			       		}
-
-			       		//  open the entrance
-		       			
-		       			if (celltocheck.y < cell.y)
-		       				celltocheck.exits.south = true;
+			       			celltocheck.exits.south = true;
 		       			else
 		       			if (celltocheck.y > cell.y)
 		       				celltocheck.exits.north = true;
@@ -317,30 +255,57 @@ var playState = {
 		       			if (celltocheck.x > cell.x)
 		       				celltocheck.exits.west = true;
 			       	}
-				}
+		       	}
+					
+		       	//  sort distance to caches
 
-				if (baddie.targetcell != null)
-					dinfo += "Target " + this.formatcell(baddie.targetcell) + nl;
+	   	        this.sortnextcells(baddie);
+
+				dinfo += "Cache Distance List:" + nl;
+				
+		       	for(var i = 0; i<baddie.distanceToCaches.length; i++)
+		       	{
+		       		dinfo += this.formatcell(baddie.distanceToCaches[i].cell) + ' - ' + baddie.distanceToCaches[i].type + ' - ' + baddie.distanceToCaches[i].distance + nl;
+		       	}
+
+				//  set this dono's target
+			    var targetidx = this.settarget(baddie);
+
+				if (targetidx != -9)
+					dinfo += 'Moving to ' + this.formatcell(baddie.distanceToCaches[0].cell) + nl;
 				else
-					dinfo += "Target " + 'No Target Yet' + nl;
-
-				//  echo out the dinos memory
-				for (var i = 0; i< mazedim.x; i++)
-				{
-					for (var j = 0; j< mazedim.y; j++)
 					{
-						var memorynextcells = baddie.cellmemory[i * mazedim.x + j];
-						if(memorynextcells != null)
-						{
-							// dinfo += "Memory for (" + i + ',' + j + ')' + nl;
-
-							// for(var k = 0; k<memorynextcells.length; k++)
-			    //    			{
-			    //    				dinfo += this.formatcell(memorynextcells[k].newcell) + ' - ' + memorynextcells[k].good + nl;
-							// }
-						}
+						for(var i = 0; i<baddie.nextcells.length; i++)
+				       	{
+				       		if(baddie.nextcells[i].good)
+				       		{
+				       			dinfo += 'xMoving to ' + this.formatcell(baddie.nextcells[i].newcell) + nl;
+				       			break;
+				       		}
+				       	}
 					}
+					
+				dinfo+= 'Targets' + nl;
+				for(var i = 0; i<baddies.length; i++)
+				{
+					dinfo += baddies.children[i].targettype + '(' + baddies.children[i].distancetotarget + ')' + nl;
 
+				}
+	
+				if (targetidx != -9)
+				{
+					this.movebaddie(baddie, cell, baddie.distanceToCaches[targetidx].cell);
+				}
+				else
+				{
+					for(var i = 0; i<baddie.nextcells.length; i++)
+			       	{
+			       		if(baddie.nextcells[i].good)
+			       		{
+			       			this.movebaddie(baddie, cell, baddie.nextcells[i].newcell);
+			       			break;
+			       		}
+			       	}
 				}
 
 				//  echo out the cache count
@@ -350,23 +315,66 @@ var playState = {
 					dinfo += baddie.cachecount[i].type + ': ' +  baddie.cachecount[i].count + nl;
 
 				}
-				
-
-		      
-		    }
-		}
+		
+				this.printdebug(dinfo);
+			}
 
 		    		
-		this.printdebug(dinfo);
-        
+		
+        }
     },
+    
+    settarget: function(baddie)
+    {
+    	//  set a target, but not if another dino already has it and its closer
+
+		//  lets see if we can take precidence over another dino first 
+    	for(var i = 0; i< baddie.distanceToCaches.length; i++)
+    	{
+    	
+    		var tartype = baddie.distanceToCaches[i].type;
+    		var tardist = baddie.distanceToCaches[i].distance;
+
+    		var inspectedtypes = '';
+
+			for(var j = 0; j<baddies.length; j++)
+    		{
+    			b = baddies.children[j];
+                inspectedtypes += b.targettype;
+    			if (b.targettype == tartype)
+    			{
+
+    				if (b.distancetotarget > tardist)
+    				{
+    					//  pinch the target
+    					b.distancetotarget = 0;
+    					b.targettype = '';
+    					baddie.distancetotarget = tardist;
+    					baddie.targettype = tartype;
+    					baddie.targetsprite.loadTexture(tartype + "maze");
+    					this.settarget(b);
+    					return i;
+    				}
+    			}
+			}
+
+            if (inspectedtypes.indexOf(tartype) == -1)
+    		{
+    			baddie.distancetotarget = tardist;
+    			baddie.targettype = tartype;
+    			baddie.targetsprite.loadTexture(tartype + "maze");
+    			return i;
+    		}
+	 	}
+	 	return -9;
+	},
 
     baddieincenterofcell: function(cell,baddie)
     {
     	if(baddie.mazespeed > 100)
     		return true;
-    //	alert(baddie.x + ' - ' + cell.x);
-    	if (Math.abs(baddie.x - (cell.x - 5)) <= 2  && Math.abs(baddie.y - (cell.y - 5)) <= 2)
+    
+     	if (Math.abs(baddie.x - (cell.x - 5)) <= 2  && Math.abs(baddie.y - (cell.y - 5)) <= 2)
     		return true;
     	else
     		return false;
@@ -418,7 +426,7 @@ var playState = {
     				if (!found)
     				{
 		    			baddie.distanceToCaches.push({cell: origcell, type: this.getgoodieincell(nextcell).goodietype, distance: baddie.IQ - IQ});
-		    			if (baddie.distanceToCaches.length == 2)
+		    			if (baddie.distanceToCaches.length == 5)
 		    		 		return true;
 		    		}
 	    		 }
@@ -446,7 +454,7 @@ var playState = {
     				if (!found)
     				{
 		    			baddie.distanceToCaches.push({cell: origcell, type: this.getgoodieincell(nextcell).goodietype, distance: baddie.IQ - IQ});
-		    			if (baddie.distanceToCaches.length == 2)
+		    			if (baddie.distanceToCaches.length == 5)
 		    		 		return true;
 		    		}
 	    		 }
@@ -485,7 +493,7 @@ var playState = {
     				if (!found)
     				{
 		    			baddie.distanceToCaches.push({cell: origcell, type: this.getgoodieincell(nextcell).goodietype, distance: baddie.IQ - IQ});
-		    			if (baddie.distanceToCaches.length == 2)
+		    			if (baddie.distanceToCaches.length == 5)
 		    		 		return true;
 		    		}
 	    		 }
@@ -588,10 +596,25 @@ var playState = {
     	return cells;
     },
 
-    sortnextcells(cells)
+    
+    sortnextcells(baddie)
     {
-    	//  randomize the list of next cells to check to make it a bit more interesting
-    	//  DEV:  only add code once the rest is tested so movement are more predictable until that time
+    	
+    	for (var i = 0; i< baddie.distanceToCaches.length; i++)
+    	{
+			for (var j = 0; j< baddie.distanceToCaches.length - 1; j++)
+	    	{
+	    		if (baddie.distanceToCaches[j + 1].distance < baddie.distanceToCaches[j].distance)
+	    		{
+
+	    			var temp = baddie.distanceToCaches[j + 1];
+	    			baddie.distanceToCaches[j + 1] = baddie.distanceToCaches[j];
+	    			baddie.distanceToCaches[j] = temp;
+	    		}
+	    		
+	    	}
+    	}
+
     	return cells;
     },
 
@@ -644,8 +667,6 @@ var playState = {
         {
         	var x = Math.floor(Math.random() * mazedim.x);
         	var y = Math.floor(Math.random() * mazedim.y);
-            //x=2;
-            //y=2;
             var c = converttomaveposition({x: x,y: y}, m, 'baddie');
             var b = addbaddie('stegmaze', 'mazeroamer' , null, 'pusher', null, {start_y: c.y, end_y: c.y, start_x: c.x, end_x: c.x, vel_x: 0, vel_y: 0});
             
@@ -661,8 +682,11 @@ var playState = {
 
 	update: function() {
 
-	
-    
+		for(var i = 0; i<baddies.length; i++)
+		{
+            baddies.children[i].targetsprite.x = baddies.children[i].x ;
+            baddies.children[i].targetsprite.y = baddies.children[i].y - 5;
+		}
 
         game.physics.arcade.collide(baddies, cells, playState.enterCell, null, this);
 
@@ -682,7 +706,6 @@ var playState = {
 
         for(var i = 0; i< baddie.cachecount.length; i++)
         {
-        	//alert(baddie.cachecount[i].type + ' - ' + goodie.goodietype)
         	if (baddie.cachecount[i].type == goodie.goodietype)
         	{
 				updatedcount = true;
@@ -700,14 +723,16 @@ var playState = {
     	goodies.remove(goodie);
         this.addcaches(1,goodie.goodietype);
 
-        //  clear all baddies memory
+        //  clear all baddies memory and target
 
         for(var i = 0; i< baddies.length; i++)
         {
         	baddies.children[i].cellmemory = [];
-
+        	baddies.children[i].targettype = '';
 
         }
+
+
     },
 
     getcell: function(x,y)

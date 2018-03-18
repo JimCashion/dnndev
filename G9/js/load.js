@@ -17,8 +17,12 @@ var loadState = {
 
          game.load.image('tradmaze', '../assets/tradmaze.png');
 
-         game.load.image('nanomaze', '../assets/nanomaze.png');
-
+         
+         game.load.image('mystmaze', '../assets/mystmaze.png');
+         game.load.image('virtmaze', '../assets/virtmaze.png');
+         game.load.image('multmaze', '../assets/multmaze.png');
+         game.load.image('lettmaze', '../assets/lettmaze.png');
+         game.load.image('maze', '../assets/maze.png');
     //     game.load.image('star', '../assets/star.png');
     //     game.load.image('cache', '../assets/cache.png');
     //     game.load.image('cachesmall', '../assets/cachesmall.png');

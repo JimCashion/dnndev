@@ -411,8 +411,17 @@ function addgoodie(spritename,x,y, nophysics, cellx, celly) {
         if (spritename.startsWith('trad'))
             type = 'trad';
 
-        if (spritename.startsWith('nano'))
-            type = 'nano';
+        if (spritename.startsWith('myst'))
+            type = 'myst';
+
+         if (spritename.startsWith('virt'))
+            type = 'virt';
+
+         if (spritename.startsWith('mult'))
+            type = 'mult';
+
+         if (spritename.startsWith('lett'))
+            type = 'lett';
 
         goodie = new Goodie(game, x, y, spritename, type, null, null, null, cellx, celly);
         goodies.add(goodie);
@@ -762,4 +771,27 @@ function getURLParam(name, url) {
         return results == null ? null : results[1];
     
 }
+
+function cleanUpPlatforms()
+{
+    var aCleanup = [];
+    platforms.forEach(function(item){
+        if(item.alive)
+            aCleanup.push(item);
+        else
+            item.destroy();
+
+    });
+    
+   
+    var i = aCleanup.length - 1;
+    while(i > -1)
+    {
+        var getitem = aCleanup[i];
+        platforms.add(getitem);
+        i--;
+    }
+}
+
+
 

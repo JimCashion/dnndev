@@ -104,7 +104,8 @@ function displaygraphical(m) {
                     else
                     {
                         line[k]= '|';
-                        addledge( 'mazewall', debugoffset+ ((line.length - 1) * bs), debugoffset + (j* bs) * 2 - bs,  'static', 1,3);
+                        //if (k == m.y*4 || k == 0) 
+                            addledge( 'mazewall', debugoffset+ ((line.length - 1) * bs), debugoffset + (j* bs) * 2 - bs,  'static', 1,3);
                     }
                 else
                 {
@@ -115,5 +116,18 @@ function displaygraphical(m) {
      //   if (m.x*2-1 == j) line[4*m.y]= ' ';
         text.push(line.join('')+'\r\n');
     }
+
+    // for(var i = 0; i< platforms.length; i++)
+    // {
+    //     if(platforms.children[i].height == 30)
+    //         platforms.children[i].kill();
+
+
+    // }
+
+    // cleanUpPlatforms();
     return text.join('');
 }
+
+
+
