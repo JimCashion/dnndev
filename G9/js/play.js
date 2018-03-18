@@ -205,15 +205,11 @@ var playState = {
 		       		dinfo += this.formatcell(baddie.nextcells[i].newcell) + ' - ' + baddie.nextcells[i].good + nl;
 		       	}
 
-<<<<<<< refs/remotes/origin/master
-		       	
 
-		       	//  check each possible cell until we find a nice one and then move to it
-=======
 		       	//populate baddie info with cache distances
 		       	baddie.targettype = '';
     			baddie.distanceToCaches = [];
->>>>>>> now collects caches - simplistically
+
 				for(var i = 0; i<baddie.nextcells.length; i++)
 		       	{
 		       		var celltocheck = baddie.nextcells[i].newcell;
@@ -379,11 +375,9 @@ var playState = {
     },
 
     movebaddie: function(baddie, fromcell, tocell)
-<<<<<<< refs/remotes/origin/master
+
 	{
-=======
-    {
->>>>>>> now collects caches - simplistically
+
     	//  move from current cell to next cell
 
     	if (fromcell.cellx == tocell.cellx)
