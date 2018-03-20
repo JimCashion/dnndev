@@ -66,6 +66,28 @@ function converttomaveposition(coords, m, type)
         y = y;
         x = x;
     }
+    if (type == 'mult')
+    {
+
+        y = y - bs / 2;
+        x = x - bs / 2;
+    }
+    if (type == 'myst')
+    {
+        y = y - bs / 2;
+        x = x - bs / 2;
+    }
+    if (type == 'lett')
+    {
+
+        y = y - bs / 2;
+        x = x - bs / 2;
+    }
+    if (type == 'virt')
+    {
+        y = y - bs / 2;
+        x = x - bs / 2;
+    }
     return {x: x, y: y};
 
 }
@@ -89,23 +111,123 @@ function displaygraphical(m) {
                     }
                     else
                     {
+                        var nowall = false;
                        
-                            line[k]= '-';
+                        if(m.y%2 == 0)
+                        {
+                            //  even columns
+
+                            if (k >= m.y*2 - 4 && k <= m.y*2 + 4)
+                                nowall = true;
+
+                            if(m.x%2 == 0)
+                            {
+                                //  even rows
+                                if(j !== m.x - 2 &&  j != m.x + 2 && j != m.x) 
+                                    nowall = false;
+                            }
+                            else
+                            {
+                                //  odd rows
+                                if (j != m.x - 1 && j != m.x + 1)
+                                    nowall = false;
+
+                            }
+                            
+                        }
+                        else
+                        {
+                            //  odd columns
+                            if (k >= m.y*2 - 2 && k <= m.y*2 + 2)
+                                nowall = true;
+
+                            if(m.x%2 == 0)
+                            {
+                                //  even rows
+                                if(j !== m.x - 2 &&  j != m.x + 2 && j != m.x)
+                                    nowall = false;
+                            }
+                            else
+                            {
+                                //  odd rows
+                                if (j != m.x - 1 && j != m.x + 1)
+                                    nowall = false;
+
+                            }
+                        }
+
+                        line[k]= '-';
+
+                        if(!nowall)
                             addledge( 'mazewall', debugoffset+ ((line.length - 1) * bs), debugoffset + (j* bs) * 2,  'static', 1,1);
+                        // else
+                        //     addledge( 'mazewall2', debugoffset+ ((line.length - 1) * bs), debugoffset + (j* bs) * 2,  'static', 1,1);
                     }
                     
         else
             for (var k=0; k<m.y*4+1; k++)
                 if (0 == k%4)
-                    if (k>0 && m.horiz[(j-1)/2][k/4-1])
+                    if (k>0  && m.horiz[(j-1)/2][k/4-1])
                     {
                         line[k]= ' ';
                     }
                     else
                     {
                         line[k]= '|';
-                        //if (k == m.y*4 || k == 0) 
+                        //  miss a couple of random walls
+                        //  don't forget that here y=x and x=y lol :o) 
+                        
+                        var nowall = false;
+                     
+                        if(m.y%2 == 0)
+                        {
+                            //  even columns
+                            if (k == m.y*2 - 4 || k == m.y*2 + 4)
+                                 nowall = true;
+
+                            if(m.x%2 == 0)
+                            {
+                                //  even rows
+                                if(j != m.x - 1 &&  j != m.x + 1)
+                                    nowall = false;
+                            }
+                            else
+                            {
+                                //  odd rows
+                                if (j != m.x)
+                                    nowall = false;
+
+                            }
+                            
+                        }
+                        else
+                        {
+                            //  odd columns
+                            if (k == Math.floor(m.y/2)*4 || k == (Math.floor(m.y/2) + 1)*4 )
+                                 nowall = true;
+
+                            if(m.x%2 == 0)
+                            {
+                                //  even rows
+                                if(j != m.x - 1 &&  j != m.x + 1)
+                                    nowall = false;
+                            }
+                            else
+                            {
+                                //  odd rows
+                                if (j != m.x)
+                                    nowall = false;
+
+                            }
+                        }
+                      
+                       
+                       // if(k == 0 || k==m.y*4 || Math.floor(Math.random() * 20) <= 18)
+                        if(!nowall)
                             addledge( 'mazewall', debugoffset+ ((line.length - 1) * bs), debugoffset + (j* bs) * 2 - bs,  'static', 1,3);
+                        // else
+                        //     addledge( 'mazewall1', debugoffset+ ((line.length - 1) * bs), debugoffset + (j* bs) * 2 - bs,  'static', 1,3);
+
                     }
                 else
                 {

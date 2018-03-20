@@ -63,7 +63,7 @@ function getTitle(){
 function getInstructions(){
 	var a;
 	if (!IsMobile())
-		a = "Traverse the maze and find caches before the dnos";
+		a = "Traverse the maze and collect caches before the dinos";
 	else
 		a = "Touch to the left or right of the player to move and above the player to jump";
 

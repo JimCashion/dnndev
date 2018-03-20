@@ -22,7 +22,7 @@ var playState = {
 
         debugoffset = 0;
         bs = 10;  //  block size
-        mazedim = {x: 20, y: 15};   //  4-*30 is good
+        mazedim = {x: 15, y: 15};   //  4-*30 is good
 
         //  Set up the game items and layout here
 
@@ -207,7 +207,7 @@ var playState = {
 			    }
 
 			    //  memorise 
-		       	baddie.cellmemory[baddie.cellx * mazedim.x + baddie.celly] = baddie.nextcells;
+		       //baddie.cellmemory[baddie.cellx * mazedim.x + baddie.celly] = baddie.nextcells;
 
 
 		       	dinfo += "Next Cell List:" + nl;
@@ -225,6 +225,7 @@ var playState = {
 				for(var i = 0; i<baddie.nextcells.length; i++)
 		       	{
 		       		var celltocheck = baddie.nextcells[i].newcell;
+		       	
 		       		if(baddie.nextcells[i].good)
 		       		{
 		       			//  close the entrance
@@ -265,7 +266,7 @@ var playState = {
 				
 		       	for(var i = 0; i<baddie.distanceToCaches.length; i++)
 		       	{
-		       		dinfo += this.formatcell(baddie.distanceToCaches[i].cell) + ' - ' + baddie.distanceToCaches[i].type + ' - ' + baddie.distanceToCaches[i].distance + nl;
+		       		//dinfo += this.formatcell(baddie.distanceToCaches[i].cell) + ' - ' + baddie.distanceToCaches[i].type + ' - ' + baddie.distanceToCaches[i].distance + nl;
 		       	}
 
 				//  set this dono's target
@@ -279,7 +280,7 @@ var playState = {
 				       	{
 				       		if(baddie.nextcells[i].good)
 				       		{
-				       			dinfo += 'xMoving to ' + this.formatcell(baddie.nextcells[i].newcell) + nl;
+				       			dinfo += 'Moving to ' + this.formatcell(baddie.nextcells[i].newcell) + nl;
 				       			break;
 				       		}
 				       	}
@@ -341,7 +342,7 @@ var playState = {
     		{
     			b = baddies.children[j];
                 inspectedtypes += b.targettype;
-    			if (b.targettype == tartype)
+    			if (b != baddie && b.targettype == tartype)
     			{
 
     				if (b.distancetotarget > tardist)
@@ -351,7 +352,7 @@ var playState = {
     					b.targettype = '';
     					baddie.distancetotarget = tardist;
     					baddie.targettype = tartype;
-    					baddie.targetsprite.loadTexture(tartype + "maze");
+    					//baddie.targetsprite.loadTexture(tartype + "maze");
     					this.settarget(b);
     					return i;
     				}
@@ -362,7 +363,7 @@ var playState = {
     		{
     			baddie.distancetotarget = tardist;
     			baddie.targettype = tartype;
-    			baddie.targetsprite.loadTexture(tartype + "maze");
+    			//baddie.targetsprite.loadTexture("n" + 4);
     			return i;
     		}
 	 	}
@@ -409,6 +410,7 @@ var playState = {
     checkcell: function(origcell, baddie, goodietype, nextcell, IQ)
     {
     	
+
     	//  new born
     	if(IQ == 0)
     	{
@@ -417,17 +419,17 @@ var playState = {
     		{
     			if (goodietype == 'all' || goodietype == this.getgoodieincell(nextcell).goodietype)
     			{
-    				var found = false;
-    				for(var i = 0; i< baddie.distanceToCaches.length; i++)
-    				{
-    					if (baddie.distanceToCaches[i].type == this.getgoodieincell(nextcell).goodietype)
-    						found = true;
-    				}
-    				if (!found)
+    				// var found = false;
+    				// for(var i = 0; i< baddie.distanceToCaches.length; i++)
+    				// {
+    				// 	if (baddie.distanceToCaches[i].type == this.getgoodieincell(nextcell).goodietype)
+    				// 		found = true;
+    				// }
+    				// if (!found || found)
     				{
 		    			baddie.distanceToCaches.push({cell: origcell, type: this.getgoodieincell(nextcell).goodietype, distance: baddie.IQ - IQ});
-		    			if (baddie.distanceToCaches.length == 5)
-		    		 		return true;
+		    			//if (baddie.distanceToCaches.length == goodies.length)
+		    		 	//	return true;
 		    		}
 	    		 }
 	    		 else
@@ -445,17 +447,17 @@ var playState = {
     		{
     			if (goodietype == 'all' || goodietype == this.getgoodieincell(nextcell).goodietype)
     			{
-    				var found = false;
-    				for(var i = 0; i< baddie.distanceToCaches.length; i++)
-    				{
-    					if (baddie.distanceToCaches[i].type == this.getgoodieincell(nextcell).goodietype)
-    						found = true;
-    				}
-    				if (!found)
+    				// var found = false;
+    				// for(var i = 0; i< baddie.distanceToCaches.length; i++)
+    				// {
+    				// 	if (baddie.distanceToCaches[i].type == this.getgoodieincell(nextcell).goodietype)
+    				// 		found = true;
+    				// }
+    				// if (!found || found)
     				{
 		    			baddie.distanceToCaches.push({cell: origcell, type: this.getgoodieincell(nextcell).goodietype, distance: baddie.IQ - IQ});
-		    			if (baddie.distanceToCaches.length == 5)
-		    		 		return true;
+		    			//if (baddie.distanceToCaches.length == goodies.length)
+		    		 		//return true;
 		    		}
 	    		 }
 	    		 else
@@ -484,17 +486,17 @@ var playState = {
     		{
     			if (goodietype == 'all' || goodietype == this.getgoodieincell(nextcell).goodietype)
     			{
-    				var found = false;
-    				for(var i = 0; i< baddie.distanceToCaches.length; i++)
-    				{
-    					if (baddie.distanceToCaches[i].type == this.getgoodieincell(nextcell).goodietype)
-    						found = true;
-    				}
-    				if (!found)
+    				// var found = false;
+    				// for(var i = 0; i< baddie.distanceToCaches.length; i++)
+    				// {
+    				// 	if (baddie.distanceToCaches[i].type == this.getgoodieincell(nextcell).goodietype)
+    				// 		found = true;
+    				// }
+    				// if (!found || found)
     				{
 		    			baddie.distanceToCaches.push({cell: origcell, type: this.getgoodieincell(nextcell).goodietype, distance: baddie.IQ - IQ});
-		    			if (baddie.distanceToCaches.length == 5)
-		    		 		return true;
+		    			//if (baddie.distanceToCaches.length == goodies.length)
+		    		 	//	return true;
 		    		}
 	    		 }
 	    		 else
@@ -509,9 +511,11 @@ var playState = {
 
     			var nc = this.getcell(nextcell.cellx, nextcell.celly - 1);
     			nc.exits.south = false;
+    			nextcell.exits.north = false;
     			if (this.checkcell(origcell, baddie, goodietype, nc,IQ - 1))
     				c = c + 1;
-    			nc.exits.south = true;    		
+    			nc.exits.south = true;    
+    			nextcell.exits.north = true;		
     		}
 
 			if (nextcell.exits.east)
@@ -520,9 +524,11 @@ var playState = {
 
     			var nc = this.getcell(nextcell.cellx + 1, nextcell.celly );
     			nc.exits.west = false;
+    			nextcell.exits.east = false;
     			if (this.checkcell(origcell, baddie, goodietype, nc,IQ - 1))
     				c = c + 1;
     			nc.exits.west = true;
+    			nextcell.exits.east = true;
     		}
 
     		if (nextcell.exits.south)
@@ -531,9 +537,11 @@ var playState = {
 
     			var nc = this.getcell(nextcell.cellx, nextcell.celly + 1);
     			nc.exits.north = false;
+    			nextcell.exits.south = false;
     			if (this.checkcell(origcell, baddie, goodietype, nc,IQ - 1))
     				c = c + 1;
     			nc.exits.north = true;
+    			nextcell.exits.south = true;
     		}
 
     		if (nextcell.exits.west)
@@ -542,9 +550,12 @@ var playState = {
 
     			var nc = this.getcell(nextcell.cellx - 1, nextcell.celly);
     			nc.exits.east = false;
+    			nextcell.exits.west = false;
     			if (this.checkcell(origcell, baddie, goodietype, nc, IQ - 1))
     				c = c + 1;
     			nc.exits.east = true;
+    			nextcell.exits.west = true;
+    			
     		}
 			
 			//  so if all exits are single cell deadends then this cell is a 2 cell deadend
@@ -670,7 +681,7 @@ var playState = {
             var c = converttomaveposition({x: x,y: y}, m, 'baddie');
             var b = addbaddie('stegmaze', 'mazeroamer' , null, 'pusher', null, {start_y: c.y, end_y: c.y, start_x: c.x, end_x: c.x, vel_x: 0, vel_y: 0});
             
-
+            //b.targetsprite.loadTexture("mazewall1");
         
             b.cellx = x;
             b.celly = y;
@@ -684,7 +695,8 @@ var playState = {
 
 		for(var i = 0; i<baddies.length; i++)
 		{
-            baddies.children[i].targetsprite.x = baddies.children[i].x ;
+			baddies.children[i].targetsprite.loadTexture("n" + i);
+            baddies.children[i].targetsprite.x = baddies.children[i].x + baddies.children[i].width - 10;
             baddies.children[i].targetsprite.y = baddies.children[i].y - 5;
 		}
 
