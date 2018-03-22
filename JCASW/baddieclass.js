@@ -36,6 +36,12 @@ Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttyp
 
     }
 
+    this.cachecount.push({type: 'virt', count: 0, sprite: null, text: ''});
+    this.cachecount.push({type: 'trad', count: 0, sprite: null, text: ''});
+    this.cachecount.push({type: 'myst', count: 0, sprite: null, text: ''});
+    this.cachecount.push({type: 'mult', count: 0, sprite: null, text: ''});
+    this.cachecount.push({type: 'lett', count: 0, sprite: null, text: ''});
+
     //  sheepdog
     this.anxiety = 0;
  
@@ -401,11 +407,13 @@ Baddie.prototype.update = function() {
         }
 
     }
+   
+    
 
     //  debug only 
     if(debug)
     {
-        this.tt .text = 'C: ' + this.currentplace.name + ' T: ' + this.currenttarget.name + " A: " + this.anxiety + ' M: ' + this.mode + "(" + this.bolting + "," + Math.floor((new Date().getTime() - this.boltstart) / 1000) + ")";
+        this.tt.text = 'C: ' + this.currentplace.name + ' T: ' + this.currenttarget.name + " A: " + this.anxiety + ' M: ' + this.mode + "(" + this.bolting + "," + Math.floor((new Date().getTime() - this.boltstart) / 1000) + ")";
         this.tt.x = this.x + this.width;
         this.tt.y = this.y;
     }

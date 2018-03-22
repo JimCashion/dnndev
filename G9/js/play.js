@@ -112,6 +112,49 @@ var playState = {
 
         //  add the player
         this.addrandmplayer();
+
+        // Create Scores section
+		styleh = { font: "30px Arial", fill: "#fff", 
+		           align: "center", 
+		           boundsAlignH: "center", 
+		           boundsAlignV: "top", 
+		           wordWrap: true, wordWrapWidth: 600 };
+
+		styledinoh = { font: "20px Arial", fill: "#fff", 
+		               align: "left", 
+		               boundsAlignH: "left", 
+		               boundsAlignV: "top", 
+		               wordWrap: true, wordWrapWidth: 600 };
+
+		styledinod = { font: "12px Arial", fill: "#fff", 
+		               align: "left", 
+		               boundsAlignH: "left", 
+		               boundsAlignV: "top", 
+		               wordWrap: true, wordWrapWidth: 600 };
+
+        tscore = game.add.text(0, 0, 'SCORES', style);
+        tscore.setTextBounds(620, 10, 200, 40);
+
+        for(var i=0; i< baddies.length; i++)
+        {
+        	var baddie = baddies.children[i];
+        	//var t = game.add.text(0, 0, 'Dino ' + (i + 1), styledinoh);
+            //t.setTextBounds(620, 50 + i*60, 200, 25);
+           
+			var s = game.add.sprite(620, 50 + i*60, 'stegmaze');
+			var sn = game.add.sprite(620 + 20, 50 + i*60 - 5, 'n' + i);
+			
+		    for(var j = 0; j< baddie.cachecount.length; j++)
+	        {
+	        	baddie.cachecount[j].sprite = game.add.sprite(620 + (j+0) * 35, 80 + i*60, baddie.cachecount[j].type + 'maze'); 
+	        	baddie.cachecount[j].sprite.scale.setTo(.75,.75);
+	        	
+			    baddie.cachecount[j].text = game.add.text(0, 0, baddie.cachecount[j].count, styledinod);
+                baddie.cachecount[j].text.setTextBounds(637 + j * 35, 80 + i*60, 200, 25);
+	        	
+			}
+       
+        }
        
     },
 
@@ -742,9 +785,12 @@ var playState = {
         	baddies.children[i].cellmemory = [];
         	baddies.children[i].targettype = '';
 
-        }
-
-
+         	for(var j = 0; j< baddies.children[i].cachecount.length; j++)
+		    {
+		        baddies.children[i].cachecount[j].text.text = baddies.children[i].cachecount[j].count;
+		      //  alert(baddies.children[i].cachecount[j].text.text);
+		    }
+		 }
     },
 
     getcell: function(x,y)
