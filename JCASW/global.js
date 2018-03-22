@@ -2,6 +2,9 @@ pen = null;
 pentext = null;
 nl = "<br>";
 
+pausegame = false;
+playerbaddiedialog = null;
+
 gate1out = null;
 gate1 = null;
 gate1in  = null;

@@ -1,10 +1,11 @@
 var playState = {
 
-	//  make baddies go for closest cache
-	//  if no target then go into zero IQ mode 
+	
 	//  Stop player, caches, and beddies overlapping
 	//  end game detection
 	//  baddie/player collision
+	//  baddie/baddie collision
+	//  timed IQ increase
 
 
 	 render: function() {
@@ -119,6 +120,11 @@ var playState = {
 		           boundsAlignH: "center", 
 		           boundsAlignV: "top", 
 		           wordWrap: true, wordWrapWidth: 600 };
+		stylehblack = { font: "30px Arial", fill: "#000", 
+		           align: "center", 
+		           boundsAlignH: "center", 
+		           boundsAlignV: "top", 
+		           wordWrap: true, wordWrapWidth: 600 };
 
 		styledinoh = { font: "20px Arial", fill: "#fff", 
 		               align: "left", 
@@ -132,8 +138,35 @@ var playState = {
 		               boundsAlignV: "top", 
 		               wordWrap: true, wordWrapWidth: 600 };
 
-        tscore = game.add.text(0, 0, 'SCORES', style);
-        tscore.setTextBounds(620, 10, 200, 40);
+        tscore = game.add.text(0, 10, ' SCORES', style);
+        tscore.setTextBounds(610, 10, 190, 40);
+
+        var z = game.add.sprite(610, 0, 'hborder');
+        z.scale.setTo(2,.25);
+		z = game.add.sprite(610, 0, 'vborder');
+        z.scale.setTo(.25,5);
+        z = game.add.sprite(800, 0, 'vborder');
+        z.scale.setTo(.25,5);
+        z = game.add.sprite(610, 60, 'hborder');
+        z.scale.setTo(2,.25);
+
+		z = game.add.sprite(610, 140, 'hborder');
+        z.scale.setTo(2,.25);
+
+ 		z = game.add.sprite(610, 132, 'cborder');
+        z.scale.setTo(.5,.5);
+		z = game.add.sprite(783, 132, 'cborder');
+        z.scale.setTo(.5,.5);
+
+        z = game.add.sprite(610, 52, 'cborder');
+        z.scale.setTo(.5,.5);
+		z = game.add.sprite(783, 52, 'cborder');
+        z.scale.setTo(.5,.5);
+
+        z = game.add.sprite(610, 0, 'cborder');
+        z.scale.setTo(.5,.5);
+        z = game.add.sprite(783, 0, 'cborder');
+        z.scale.setTo(.5,.5);
 
         for(var i=0; i< baddies.length; i++)
         {
@@ -141,20 +174,47 @@ var playState = {
         	//var t = game.add.text(0, 0, 'Dino ' + (i + 1), styledinoh);
             //t.setTextBounds(620, 50 + i*60, 200, 25);
            
-			var s = game.add.sprite(620, 50 + i*60, 'stegmaze');
-			var sn = game.add.sprite(620 + 20, 50 + i*60 - 5, 'n' + i);
+			var s = game.add.sprite(625, 160 + i*70, 'stegmaze');
+			var sn = game.add.sprite(625 + 20, 160 + i*70 - 5, 'n' + i);
+			
+			z = game.add.sprite(610, 210 + i*70, 'hborder');
+	        z.scale.setTo(2,.25);
 			
 		    for(var j = 0; j< baddie.cachecount.length; j++)
 	        {
-	        	baddie.cachecount[j].sprite = game.add.sprite(620 + (j+0) * 35, 80 + i*60, baddie.cachecount[j].type + 'maze'); 
+	        	baddie.cachecount[j].sprite = game.add.sprite(625 + (j+0) * 35, 190 + i*70, baddie.cachecount[j].type + 'maze'); 
 	        	baddie.cachecount[j].sprite.scale.setTo(.75,.75);
 	        	
 			    baddie.cachecount[j].text = game.add.text(0, 0, baddie.cachecount[j].count, styledinod);
-                baddie.cachecount[j].text.setTextBounds(637 + j * 35, 80 + i*60, 200, 25);
+                baddie.cachecount[j].text.setTextBounds(642 + j * 35, 190 + i*70, 200, 25);
 	        	
 			}
        
+            baddie.totalcellstext = game.add.text(0, 0, 'total: ' + (baddie.cachecount[0].count + baddie.cachecount[1].count + baddie.cachecount[2].count + baddie.cachecount[3].count + baddie.cachecount[4].count) , styledinod);
+            baddie.totalcellstext.setTextBounds(700, 160 + i*70, 50,25);
+
+	        z = game.add.sprite(610, 485, 'cborder');
+	        z.scale.setTo(.5,.5);
+	        z = game.add.sprite(783, 485, 'cborder');
+	        z.scale.setTo(.5,.5);
         }
+
+        //  now the players scores
+
+        var s = game.add.sprite(625, 85, 'dudemaze');
+		for(var j = 0; j< player.cachecount.length; j++)
+        {
+        	player.cachecount[j].sprite = game.add.sprite(625 + (j+0) * 35, 45 + 70, player.cachecount[j].type + 'maze'); 
+        	player.cachecount[j].sprite.scale.setTo(.75,.75);
+        	
+		    player.cachecount[j].text = game.add.text(0, 0, player.cachecount[j].count, styledinod);
+            player.cachecount[j].text.setTextBounds(642 + j * 35, 45 + 70, 200, 25);
+        	
+		}
+		
+		player.totalcellstext = game.add.text(0, 0, 'total: ' + (player.cachecount[0].count + player.cachecount[1].count + player.cachecount[2].count + player.cachecount[3].count + player.cachecount[4].count) , styledinod);
+        player.totalcellstext.setTextBounds(700, 85, 50,25);
+
        
     },
 
@@ -741,6 +801,7 @@ var playState = {
 			baddies.children[i].targetsprite.loadTexture("n" + i);
             baddies.children[i].targetsprite.x = baddies.children[i].x + baddies.children[i].width - 10;
             baddies.children[i].targetsprite.y = baddies.children[i].y - 5;
+
 		}
 
         game.physics.arcade.collide(baddies, cells, playState.enterCell, null, this);
@@ -749,8 +810,56 @@ var playState = {
 	 
         hitPlatform = game.physics.arcade.collide(player, platforms);
 
-        game.physics.arcade.collide(player, baddies);
+       
+        game.physics.arcade.collide(player, goodies, playState.playerfoundcache, null, this);
 
+		game.physics.arcade.overlap(baddies, player, playState.baddiehitplayer, null, this);
+
+		game.physics.arcade.overlap(baddies, baddies, playState.baddiehitbaddie, null, this);
+
+	},
+
+	baddiehitplayer: function (baddie, player) {
+
+    	//  increase the cache cound for this baddie
+    	
+    	pausegame = true;
+    	for(var i = 0; i<baddies.length; i++)
+		{
+			baddies.children[i].savedvelocityx = baddies.children[i].body.velocity.x;
+    		baddies.children[i].savedvelocityy = baddies.children[i].body.velocity.y;
+    		baddies.children[i].body.velocity.x = 0;
+    		baddies.children[i].body.velocity.y = 0;
+		}
+
+		playerbaddiedialog = game.add.sprite(100,200, 'dialog');
+	    playerbaddiedialog.scale.setTo(4,2);
+	    
+	    var h = game.add.text(0, 0, 'STAND AND DELIVER', stylehblack);
+        h.setTextBounds(100, 210, 400, 180);
+
+	},
+	
+	baddiehitbaddie: function (baddie1, baddie2) {
+
+    	//  increase the cache cound for this baddie
+    	if (baddie1 == baddie2)
+    		return;
+
+    	pausegame = true;
+    	for(var i = 0; i<baddies.length; i++)
+		{
+			baddies.children[i].savedvelocityx = baddies.children[i].body.velocity.x;
+    		baddies.children[i].savedvelocityy = baddies.children[i].body.velocity.y;
+    		baddies.children[i].body.velocity.x = 0;
+    		baddies.children[i].body.velocity.y = 0;
+		}
+
+		playerbaddiedialog = game.add.sprite(100,200, 'dialog');
+	    playerbaddiedialog.scale.setTo(4,2);
+	    
+	    var h = game.add.text(0, 0, "Let's share caches", stylehblack);
+        h.setTextBounds(100, 210, 400, 180);
 
 	},
 
@@ -788,10 +897,44 @@ var playState = {
          	for(var j = 0; j< baddies.children[i].cachecount.length; j++)
 		    {
 		        baddies.children[i].cachecount[j].text.text = baddies.children[i].cachecount[j].count;
-		      //  alert(baddies.children[i].cachecount[j].text.text);
 		    }
+		    baddies.children[i].totalcellstext.text = 'total: ' + (baddies.children[i].cachecount[0].count + baddies.children[i].cachecount[1].count + baddies.children[i].cachecount[2].count + baddies.children[i].cachecount[3].count + baddies.children[i].cachecount[4].count);
+            
 		 }
+
     },
+
+	playerfoundcache: function (player, goodie) {
+
+    	//  increase the cache cound for this baddie
+    	var updatedcount = false;
+
+        for(var i = 0; i< player.cachecount.length; i++)
+        {
+        	if (player.cachecount[i].type == goodie.goodietype)
+        	{
+				updatedcount = true;
+				player.cachecount[i].count = player.cachecount[i].count + 1;
+        	}
+		}
+
+		if(!updatedcount)
+			player.cachecount.push({type: goodie.goodietype, count: 1});
+		
+
+        // kill and reinstate the cache
+
+    	goodie.kill();
+    	goodies.remove(goodie);
+        this.addcaches(1,goodie.goodietype);
+
+      	for(var j = 0; j< player.cachecount.length; j++)
+	    {
+	        player.cachecount[j].text.text = player.cachecount[j].count;
+	    }
+	    player.totalcellstext.text = 'total: ' + (player.cachecount[0].count + player.cachecount[1].count + player.cachecount[2].count + player.cachecount[3].count + player.cachecount[4].count);
+            
+	},
 
     getcell: function(x,y)
     {

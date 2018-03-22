@@ -11,6 +11,8 @@ Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttyp
     this.orientation = 'h';
     this.cachecount = [];
 
+    this.savedvelocityx = 0;
+    this.savedvelocityy = 0;
     //  maze stuff
 
     this.targettype = '';
@@ -26,6 +28,7 @@ Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttyp
     this.prevcellx = 0;
     this.prevcelly = 0;
     this.cellmemory = [];
+    this.totalcellstext = '';
 
     for(var i = 0; i< mazedim.x; i++)
     {

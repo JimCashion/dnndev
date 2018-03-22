@@ -7,27 +7,32 @@ var loadState = {
 
         game.load.image('sky', '../assets/sky.png');
 
+        game.load.image('hborder', '../assets/hborder.png');
+        game.load.image('vborder', '../assets/vborder.png');
+        game.load.image('cborder', '../assets/corner.png');
+
         game.load.image('mazewall', '../assets/mazewall.png');
         game.load.image('mazewall0', '../assets/mazewall0.png');
         game.load.image('mazewall1', '../assets/mazewall1.png');
         game.load.image('mazewall2', '../assets/mazewall2.png');
 
-         game.load.spritesheet('dudemaze', '../assets/dudemaze.png', 20,20);
-         game.load.spritesheet('stegmaze', '../assets/stegmaze.png', 20,20);
+        game.load.image('dialog', '../assets/dialog.png');
+        game.load.spritesheet('dudemaze', '../assets/dudemaze.png', 20,20);
+        game.load.spritesheet('stegmaze', '../assets/stegmaze.png', 20,20);
 
-         game.load.image('tradmaze', '../assets/tradmaze.png');
+        game.load.image('tradmaze', '../assets/tradmaze.png');
 
-         
-         game.load.image('mystmaze', '../assets/mystmaze.png');
-         game.load.image('virtmaze', '../assets/virtmaze.png');
-         game.load.image('multmaze', '../assets/multmaze.png');
-         game.load.image('lettmaze', '../assets/lettmaze.png');
-         game.load.image('n1', '../assets/n1.png');
-         game.load.image('n2', '../assets/n2.png');
-         game.load.image('n3', '../assets/n3.png');
-         game.load.image('n4', '../assets/n4.png');
-         game.load.image('n0', '../assets/n0.png');
-         game.load.image('maze', '../assets/maze.png');
+
+        game.load.image('mystmaze', '../assets/mystmaze.png');
+        game.load.image('virtmaze', '../assets/virtmaze.png');
+        game.load.image('multmaze', '../assets/multmaze.png');
+        game.load.image('lettmaze', '../assets/lettmaze.png');
+        game.load.image('n1', '../assets/n1.png');
+        game.load.image('n2', '../assets/n2.png');
+        game.load.image('n3', '../assets/n3.png');
+        game.load.image('n4', '../assets/n4.png');
+        game.load.image('n0', '../assets/n0.png');
+        game.load.image('maze', '../assets/maze.png');
     //     game.load.image('star', '../assets/star.png');
     //     game.load.image('cache', '../assets/cache.png');
     //     game.load.image('cachesmall', '../assets/cachesmall.png');

@@ -10,6 +10,7 @@ Goodie = function (game, x, y, spritename, goodietype, constraint, constraingtyp
     this.relative_x = relative_x;
     this.cellx = cellx;
     this.celly = celly;
+    
 
     if(this.constraint != null)
     {
@@ -35,7 +36,7 @@ Goodie = function (game, x, y, spritename, goodietype, constraint, constraingtyp
 
     }
 
-  
+   
 };
 
 Goodie.prototype = Object.create(Phaser.Sprite.prototype);

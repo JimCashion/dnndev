@@ -17,6 +17,16 @@ Player = function (game, x, y, type, sprite) {
         Phaser.Sprite.call(this, game, x, y, 'dude');
         this.type = 'levelwalker';
     }
+
+    this.cachecount = [];
+    this.totalcellstext = '';
+
+    this.cachecount.push({type: 'virt', count: 0, sprite: null, text: ''});
+    this.cachecount.push({type: 'trad', count: 0, sprite: null, text: ''});
+    this.cachecount.push({type: 'myst', count: 0, sprite: null, text: ''});
+    this.cachecount.push({type: 'mult', count: 0, sprite: null, text: ''});
+    this.cachecount.push({type: 'lett', count: 0, sprite: null, text: ''});    
+  
    
 };
 
@@ -27,8 +37,14 @@ Player.prototype.update = function() {
 
     //  Control Player movement
     cursors = game.input.keyboard.createCursorKeys();
+    if(pausegame)
+    {
+        this.body.velocity.x = 0;   
+        this.body.velocity.y = 0;   
+        return;
+    }
 
-     //  Reset the players velocity (movement)
+    //  Reset the players velocity (movement)
     this.body.velocity.x = startvelocity_x;
     if (this.type != 'levelwalker')
     {
