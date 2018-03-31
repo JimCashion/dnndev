@@ -21,7 +21,8 @@ var loadState = {
         game.load.spritesheet('stegmaze', '../assets/stegmaze.png', 20,20);
 
         game.load.image('tradmaze', '../assets/tradmaze.png');
-
+        game.load.image('braindrain', '../assets/braindrain.png');
+        game.load.image('stungun', '../assets/stungun.png');
 
         game.load.image('mystmaze', '../assets/mystmaze.png');
         game.load.image('virtmaze', '../assets/virtmaze.png');
@@ -32,10 +33,15 @@ var loadState = {
         game.load.image('n3', '../assets/n3.png');
         game.load.image('n4', '../assets/n4.png');
         game.load.image('n0', '../assets/n0.png');
+        game.load.image('m1', '../assets/m1.png');
+        game.load.image('m2', '../assets/m2.png');
+        game.load.image('m3', '../assets/m3.png');
+        game.load.image('m4', '../assets/m4.png');
+        game.load.image('m0', '../assets/m0.png');
         game.load.image('maze', '../assets/maze.png');
     //     game.load.image('star', '../assets/star.png');
     //     game.load.image('cache', '../assets/cache.png');
-    //     game.load.image('cachesmall', '../assets/cachesmall.png');
+         game.load.image('cachesmall', '../assets/cachesmall.png');
     //     game.load.spritesheet('dude', '../assets/dude.png', 32, 48);
     //     game.load.spritesheet('baddie', '../assets/baddie.png', 32, 48);  //  happy baddie
     //     game.load.spritesheet('angrybaddie', '../assets/angrybaddie.png', 32, 48);  //  angry baddie

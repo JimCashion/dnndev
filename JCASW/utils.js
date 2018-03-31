@@ -127,9 +127,9 @@ function checkfences(dino)
                 }
                 else
                    {
-               //     alert(dino.body.velocity.x);
+             
                     dino.x = fence.x - dino.width - 10;
-                 //     alert('');
+               
 }
                 dino.bounceduration = bounceperiod;  
             }
@@ -159,10 +159,10 @@ function checkfences(dino)
                 }
                 else
                 {
- //alert('this one ' + dino.body.velocity.x);
+
                   dino.x = fence.x - dino.width - 10;
                  
-   //                 alert('');
+
                 }
                 dino.bounceduration = bounceperiod;
             }
@@ -227,11 +227,11 @@ function confirmwin()
         //the "click to restart" handler
         game.input.onTap.addOnce(function () {           
        
-        score = 0;
-        startvelocity = 0;
-        liftDirection = -1
+            score = 0;
+            startvelocity = 0;
+            liftDirection = -1
 
-        game.state.start('menu');
+            game.state.start('menu');
         });
 
 
@@ -256,27 +256,7 @@ function confirmwin()
         click = game.add.text(0, 0, 'Click to restart', style);
         click.setTextBounds(0, 400, game.world.width, game.world.height);
 
-       // game.input.onDown.add(this.carryon, this);
-
-       //  wait until the coordinates are readable
-
-       // var proceed = true;
-       // do
-       // {
-       //      proceed = true;
-
-       //      for (var i = 0; i < c_sprites.length; i++)
-       //      {
-       //          var s = c_sprites[i];
-       //          if (!s.donex || !s.doney)
-       //              proceed = false;
-       //      }    
-           
-       //     game.input.onDown.addOnce(function () { });          
-
-       // } while(!proceed) 
-
-        //the "click to restart" handler
+               //the "click to restart" handler
         game.input.onDown.addOnce(function () {           
        
 
@@ -322,6 +302,7 @@ function confirmwin()
     }
     else
     {
+
 
         style = { font: "30px Arial", fill: "#fff", 
         align: "center", 
@@ -441,7 +422,7 @@ function addgoodie(spritename,x,y, nophysics, cellx, celly) {
 
 function showcoords(a) {
     
- 
+
      var x = 10;
      var y = 0;
    
@@ -559,6 +540,37 @@ function showcoords(a) {
 
 }
 
+function constructcoords()
+{
+    for (var i = 0; i < c_sprites.length; i++)
+    {
+        var s = c_sprites[i];
+
+        var dx = s.x - s.sprite.x;
+        var dy = s.y - s.sprite.y;
+
+        var diag = Math.sqrt((dy * dy) + (dx * dx)) / 2;
+
+        
+        var angle = Math.atan(Math.abs(dy) / Math.abs(dx));   
+
+            if (s.x > s.sprite.x)
+                s.sprite.body.velocity.x = diag * Math.cos(angle);
+            else
+                s.sprite.body.velocity.x = diag * Math.cos(angle) * -1;
+      
+            if(s.y > s.sprite.y)
+                s.sprite.body.velocity.y = diag * Math.sin(angle) ;
+            else
+                s.sprite.body.velocity.y = diag * Math.sin(angle) * -1;
+
+        if (Math.abs(s.sprite.body.velocity.x) < 50)
+            s.donex = true;
+        if (Math.abs(s.sprite.body.velocity.y) < 50)
+            s.doney = true;
+    }
+}
+
 function whereisdino(dino)
 {
 
@@ -613,8 +625,8 @@ function whereisdino(dino)
     t_topright = {x: gate2in.x + gate2in.width, y: gate2in.y};
     t_bottomleft = {x: gate2in.x, y: gate2in.y + gate2in.height};
     t_bottomright = {x: gate2in.x + gate2in.width, y: gate2in.y + gate2in.height};
-   // alert(t_topleft.x + ' - ' + t_topright);
-    if (d_topleft.x >= t_topleft.x && d_topleft.x <= t_topright.x && d_topright.x >= t_topleft.x && d_topright.x <= t_topright.x &&
+   
+   if (d_topleft.x >= t_topleft.x && d_topleft.x <= t_topright.x && d_topright.x >= t_topleft.x && d_topright.x <= t_topright.x &&
         d_topleft.y >= t_topleft.y && d_topleft.y <= t_bottomright.y && d_bottomleft.y >= t_topleft.y && d_bottomleft.y <= t_bottomright.y)
     {
         return {name: 'gate2in', revert: 0};

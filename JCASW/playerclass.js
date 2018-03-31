@@ -1,7 +1,7 @@
 //  Extended Player 'class'
 Player = function (game, x, y, type, sprite) {
 
-
+    this.objecttype = 'player';
     if (type != null)
     {
 
@@ -20,12 +20,14 @@ Player = function (game, x, y, type, sprite) {
 
     this.cachecount = [];
     this.totalcellstext = '';
+    this.cellx = 0;
+    this.celly = 0
 
-    this.cachecount.push({type: 'virt', count: 0, sprite: null, text: ''});
-    this.cachecount.push({type: 'trad', count: 0, sprite: null, text: ''});
-    this.cachecount.push({type: 'myst', count: 0, sprite: null, text: ''});
-    this.cachecount.push({type: 'mult', count: 0, sprite: null, text: ''});
-    this.cachecount.push({type: 'lett', count: 0, sprite: null, text: ''});    
+    this.cachecount.push({type: 'virt', count: 0, sprite: null, text: '', textdiag: null, spritediag: null});
+    this.cachecount.push({type: 'trad', count: 0, sprite: null, text: '', textdiag: null, spritediag: null});
+    this.cachecount.push({type: 'myst', count: 0, sprite: null, text: '', textdiag: null, spritediag: null});
+    this.cachecount.push({type: 'mult', count: 0, sprite: null, text: '', textdiag: null, spritediag: null});
+    this.cachecount.push({type: 'lett', count: 0, sprite: null, text: '', textdiag: null, spritediag: null});    
   
    
 };

@@ -42,6 +42,7 @@ function getPrize(){
 
 function postback(arg) {
    
+   game.world.setBounds(0, 0, 800, 600);
    game.state.start(arg);
 }
 
@@ -55,7 +56,7 @@ function getSecretCode(){
 
 function getTitle(){
 
-	var a = "DINONANONONAGON #1";
+	var a = "DinoNanoNonagon #9";
 
 	return a;
 }
@@ -63,9 +64,9 @@ function getTitle(){
 function getInstructions(){
 	var a;
 	if (!IsMobile())
-		a = "Traverse the maze and collect caches before the dinos";
+		a = "Use the arrow keys to move around the maze and collect the caches before the dinos";
 	else
-		a = "Touch to the left or right of the player to move and above the player to jump";
+		a = "Touch to the left, right, above or below the player to move around the maze and collect the caches before the dinos";
 
 	return a;
 
@@ -73,7 +74,7 @@ function getInstructions(){
 
 function getMission(){
 	
-	var a = "Collect xx caches";
+	var a = "Collect 20 of each cache type or 200 caches in total before one of the dinos does!";
 	
 	return a;
 

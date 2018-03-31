@@ -2,8 +2,7 @@ var loseState = {
 
 	
     create: function() {
-
-       confirmlose('You were killed by an Angry Dino');
+   			confirmlose('"' + dinonames[winningdino] + '" beat you to the caches, better luck next time!');
 	},
 
 	restart: function() {

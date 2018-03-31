@@ -1,9 +1,31 @@
 pen = null;
 pentext = null;
 nl = "<br>";
+t = new Date();
+psf=null;
+dsf=null;
+snf=null;
+pst=null;
+dst=null;
+snt=null;
+
+dinonames = ["The Steg", 'Albert', "Drax", "Dippy", 'Pterrie'];
+mazedim=null;
+torightcaches = [];
+toleftcaches = [];
+stunactive = false;
+dinfo = '';
+winningdino = -1;
+
+
+cachetotaltarget = 5;
+cachetypetarget = 2;
 
 pausegame = false;
 playerbaddiedialog = null;
+
+fromcachecount = [];
+tocachecount = [];
 
 gate1out = null;
 gate1 = null;

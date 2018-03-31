@@ -2,6 +2,7 @@
 Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttype, relative_x, absolutecoords, inmaze) {
 
     Phaser.Sprite.call(this, game, x, y, spritename);
+    this.objecttype = 'baddie';
 
     this.baddietype = baddietype;
     this.spritename = spritename;
@@ -10,6 +11,12 @@ Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttyp
     this.relative_x = relative_x;
     this.orientation = 'h';
     this.cachecount = [];
+    this.dno = 0;
+
+    this.stunnedvelocityx = 0;
+    this.stunnedvelocityy = 0;
+    this.stunnedendtime = new Date();
+    this.stunned = false;
 
     this.savedvelocityx = 0;
     this.savedvelocityy = 0;
@@ -18,9 +25,11 @@ Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttyp
     this.targettype = '';
     this.distancetotarget = 0;
     this.distanceToCaches = [];
-    this.mazespeed = 100;
+
+    this.mazespeed = Math.floor(Math.random() * 10) + 80;
+
     this.inmaze = inmaze;
-    this.IQ = 100;
+    this.IQ = Math.floor(Math.random() * 5) + 5;
     this.cellx = 0;
     this.celly = 0
     this.targetcell = null;
@@ -29,21 +38,27 @@ Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttyp
     this.prevcelly = 0;
     this.cellmemory = [];
     this.totalcellstext = '';
+    this.nametext = '';
+    this.timeforIQIncrease = new Date();
+    this.timeforIQIncrease.setSeconds(this.timeforIQIncrease.getSeconds() + 5);
 
-    for(var i = 0; i< mazedim.x; i++)
+    if(mazedim != null)
     {
-        for(var j = 0; j< mazedim.y; j++)
+        for(var i = 0; i< mazedim.x; i++)
         {
-            this.cellmemory.push(null);
-        }
+            for(var j = 0; j< mazedim.y; j++)
+            {
+                this.cellmemory.push(null);
+            }
 
+        }
     }
 
-    this.cachecount.push({type: 'virt', count: 0, sprite: null, text: ''});
-    this.cachecount.push({type: 'trad', count: 0, sprite: null, text: ''});
-    this.cachecount.push({type: 'myst', count: 0, sprite: null, text: ''});
-    this.cachecount.push({type: 'mult', count: 0, sprite: null, text: ''});
-    this.cachecount.push({type: 'lett', count: 0, sprite: null, text: ''});
+    this.cachecount.push({type: 'virt', count: 0, sprite: null, text: '', textdiag: null, spritediag: null});
+    this.cachecount.push({type: 'trad', count: 0, sprite: null, text: '', textdiag: null, spritediag: null});
+    this.cachecount.push({type: 'myst', count: 0, sprite: null, text: '', textdiag: null, spritediag: null});
+    this.cachecount.push({type: 'mult', count: 0, sprite: null, text: '', textdiag: null, spritediag: null});
+    this.cachecount.push({type: 'lett', count: 0, sprite: null, text: '', textdiag: null, spritediag: null});
 
     //  sheepdog
     this.anxiety = 0;
@@ -119,6 +134,8 @@ Baddie.prototype.constructor = Baddie;
 
 
 Baddie.prototype.update = function() {
+
+    
 
     //  pass control to the game if we are in a maze
     if(this.inmaze)
