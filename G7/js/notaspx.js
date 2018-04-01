@@ -46,6 +46,12 @@ function getSecretCode(){
 	return sc;
 }
 
+function postback(arg) {
+   
+   game.state.start(arg);
+}
+
+
 function getTitle(){
 
 	var a = "DINONANONONAGON #1";

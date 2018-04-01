@@ -11,7 +11,9 @@ var winState = {
 	update: function() 
     {
 
-        constructcoords();
+       constructcoords();
+
+		
        
 	}
 

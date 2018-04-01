@@ -48,7 +48,7 @@ function getSecretCode(){
 
 function getTitle(){
 
-	var a = "DINONANONONAGON #8";
+	var a = "DinoNanoNonagon #8";
 
 	return a;
 }

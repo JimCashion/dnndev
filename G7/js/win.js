@@ -3,9 +3,12 @@ var winState = {
 	
     create: function() {
 
-       
+		confirmwin();
+	},
 
-	   confirmwin();
+	update: function() {
+
+		   constructcoords();
 	},
 
 }

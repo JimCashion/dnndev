@@ -6,4 +6,9 @@ var winState = {
 		confirmwin();
 	},
 
+	update: function() {
+
+		   constructcoords();
+	},
+
 }

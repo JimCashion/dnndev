@@ -16,10 +16,10 @@ toleftcaches = [];
 stunactive = false;
 dinfo = '';
 winningdino = -1;
+bonustext='';
 
-
-cachetotaltarget = 5;
-cachetypetarget = 2;
+cachetotaltarget = 200;
+cachetypetarget = 20;
 
 pausegame = false;
 playerbaddiedialog = null;
@@ -31,7 +31,7 @@ gate1out = null;
 gate1 = null;
 gate1in  = null;
 gate1text = null;
-
+otext = 'IGUANADON';
 gate2out = null;
 gate2 = null;
 gate2in  = null;
@@ -46,7 +46,7 @@ original = [];
 var goody_properties = [];
 
 var score = 0;
-var winscore = 10;   //  number of nanos to collect
+var winscore = 200;   //  number of nanos to collect
 var scoreText;
 var startvelocity_x = 0
 var startvelocity_y = 0;

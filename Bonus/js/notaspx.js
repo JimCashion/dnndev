@@ -39,6 +39,15 @@ function getPrize(){
 	return a;
 }
 
+function postback(arg, data) {
+   
+   // assume correct as the checksum will be correct.
+   //  will perform an exact check when in ASPX mode
+   
+   bonustext = data;
+   game.state.start(arg);
+}
+
 function getSecretCode(){
 
 	var sc = "123456";
@@ -48,26 +57,24 @@ function getSecretCode(){
 
 function getTitle(){
 
-	var a = "DINONANONONAGON BONUS";
+	var a = "DinoNanoNonagon BONUS";
 
 	return a;
 }
 
 function getInstructions(){
 	var a;
-	if(IsMobile())
-		a = "Click on a picture fragement to move it into the space until the pictre is reassembled";
-	else
-		a = "Touch and drag the pictures on the left to the grid on the right";
-
+	
+		a = "This is smiple to play and should be just as easy using a touch screen as a keyboard";
+	
 	return a;
 
 }
 
 function getMission(){
 	
-	var	a = "Each picture was taken at GZ for each of the nine caches";
-	a+= "\nAll you have to do is drag them onto the cache number they were take at in the grid on the right";
+	var	a = "This is in three simple stages, complete each stage to progress to the next.";
+	a+= "\nOnce the last stage is completed you will be given the coordinates to the bonus cache.";
 	return a;
 
 }

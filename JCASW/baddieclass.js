@@ -126,7 +126,7 @@ Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttyp
     }
 
       this.targetsprite = game.add.sprite(this.x + 20, this.y - 5, 'n4');
-      //this.targetsprite.scale.setTo(.5,.5);
+    
 };
 
 Baddie.prototype = Object.create(Phaser.Sprite.prototype);
@@ -396,7 +396,7 @@ Baddie.prototype.update = function() {
                 pentext.text = pencount;
                 this.inpen = true;
                 if (pencount == baddiecount)
-                    alert('woohoo');
+                    postback('win');
             }
 
             if (this.inpen == false)

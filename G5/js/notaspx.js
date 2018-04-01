@@ -48,10 +48,16 @@ function getSecretCode(){
 
 function getTitle(){
 
-	var a = "DINONANONONAGON #5";
+	var a = "DinoNanoNonagon #5";
 
 	return a;
 }
+
+function postback(arg) {
+   
+   game.state.start(arg);
+}
+
 
 function getInstructions(){
 	var a;

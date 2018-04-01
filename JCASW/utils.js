@@ -220,19 +220,9 @@ function confirmwin()
 
        
 
-        click = game.add.text(0, 0, 'Click to restart', style);
-        click.setTextBounds(0, 400, game.world.width, game.world.height);
-
        
-        //the "click to restart" handler
-        game.input.onTap.addOnce(function () {           
        
-            score = 0;
-            startvelocity = 0;
-            liftDirection = -1
-
-            game.state.start('menu');
-        });
+        
 
 
     }
@@ -252,21 +242,6 @@ function confirmwin()
         text2.setTextBounds(0, 340, game.world.width, game.world.height);
 
       
-
-        click = game.add.text(0, 0, 'Click to restart', style);
-        click.setTextBounds(0, 400, game.world.width, game.world.height);
-
-               //the "click to restart" handler
-        game.input.onDown.addOnce(function () {           
-       
-
-
-        score = 0;
-        startvelocity = 0;
-        liftDirection = -1
-
-        game.state.start('menu');
-        });
     }
  }
 
@@ -564,11 +539,45 @@ function constructcoords()
             else
                 s.sprite.body.velocity.y = diag * Math.sin(angle) * -1;
 
-        if (Math.abs(s.sprite.body.velocity.x) < 50)
+        if (Math.abs(s.sprite.body.velocity.x) < 2)
             s.donex = true;
-        if (Math.abs(s.sprite.body.velocity.y) < 50)
+        if (Math.abs(s.sprite.body.velocity.y) < 2)
             s.doney = true;
     }
+
+    var  finished  = true;
+        for (var i = 0; i < c_sprites.length; i++)
+        {
+            var s = c_sprites[i];
+
+           if (!s.donex || !s.doney)
+           {  
+               finished = false;
+               break;
+            }
+
+        }
+
+        if(finished)
+        {
+
+            click = game.add.text(0, 0, 'Click to restart', style);
+            click.setTextBounds(0, 400, game.world.width, game.world.height);
+
+
+        //the "click to restart" handler
+            game.input.onTap.addOnce(function () {           
+       
+                score = 0;
+                startvelocity = 0;
+                liftDirection = -1
+
+                game.state.start('menu');
+            }
+            );
+
+        }
+        
 }
 
 function whereisdino(dino)

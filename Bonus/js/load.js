@@ -7,7 +7,7 @@ var loadState = {
             { font: '30px Courier', fill: '#ffffff' });
 
             game.load.image('star', '../assets/star.png');
-
+            game.load.image('key', '../assets/key.png');
        
             game.load.image('i1', '../assets/cp/1.png');
             game.load.image('i2', '../assets/cp/2.png');

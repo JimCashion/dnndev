@@ -67,8 +67,8 @@ var playState = {
             baddie.body.velocity.x = 100;
             baddie.body.immovable = true;
 
-            var absco = {start_x: game.world.width - 64, start_y: 60 * b, end_x: game.world.width + Math.floor(Math.random() * 200), end_y:  60 * b};
-            var baddie = new Baddie(game, 0, 0, 'killer', 'rd' + (b + 1) + 'l', null, 'absolute', null, absco);
+            absco = {start_x: game.world.width - 64, start_y: 60 * b, end_x: game.world.width + Math.floor(Math.random() * 200), end_y:  60 * b};
+            baddie = new Baddie(game, 0, 0, 'killer', 'rd' + (b + 1) + 'l', null, 'absolute', null, absco);
             baddie.x = game.world.width;
             baddies.add(baddie);
             game.physics.arcade.enable(baddie);
@@ -77,49 +77,13 @@ var playState = {
 
         }
 
-        //  practice with an emitter
-
-        //  Emitters have a center point and a width/height, which extends from their center point to the left/right and up/down
-        emitter = game.add.emitter(game.world.centerX, 200, 200);
-
-        //  This emitter will have a width of 800px, so a particle can emit from anywhere in the range emitter.x += emitter.width / 2
-        emitter.width = 800;
-
-        emitter.makeParticles('star');
-
-        emitter.minParticleSpeed.set(0, 300);
-        emitter.maxParticleSpeed.set(0, 400);
-
-        emitter.setRotation(360, 360);
-        emitter.setAlpha(0.3, 0.8);
-        emitter.setScale(0.5, 0.5, 1, 1);
-        emitter.gravity = -200;
-
-        //  false means don't explode all the sprites at once, but instead release at a rate of one particle per 100ms
-        //  The 5000 value is the lifespan of each particle before it's killed
-        emitter.start(false, 5000, 100);
-
-       
+      
     },
 
 
 	update: function() {
 
-        // for (var i = 0; i < c_sprites.length; i++)
-        // {
-        //     var s = c_sprites[i];
-
-        //     var dx = s.x - s.sprite.x;
-        //     var dy = s.y - s.sprite.y;
-
-        //     var diag = 150;   //  perceived velocits towards target
-
-        //     var angle = Math.atan(dy / dx);   
-   
-        //     s.sprite.body.velocity.x = diag * Math.cos(angle);
-        //     s.sprite.body.velocity.x = diag * Math.sin(angle);
-
-        // }
+        
 
 	 
       	//  Collide the player and the stars with the platforms
