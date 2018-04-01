@@ -27,8 +27,11 @@ var loadState = {
     },
 
     create: function() {
-        //
-		game.state.start('menu');
-	}
-	
+
+        var target = document.getElementById("tbcontrol").value;
+        document.getElementById("tbcontrol").value = 'menu';
+
+        game.state.start(target);
+    }
+
 }

@@ -8,41 +8,34 @@ function getPrize(){
 	return a;
 }
 
-function getSecretCode(){
-
-	var sc = "123456";
-
-	return sc;
-}
-
 function postback(arg) {
    
-       __doPostBack('bposaaatback', arg);
+       __doPostBack('bpostback', arg);
 }
 
-function getTitle(){
+function getTitle() {
 
-	var a = "DinoNanoNonagon #1";
+    var a = "DinoNanoNonagon #1";
 
-	return a;
+    return a;
 }
 
-function getInstructions(){
-	var a;
-	if (!IsMobile())
-		a = "Use the Arrow keys on your keyboard to move left or right and the up arrow to jump";
-	else
-		a = "Touch to the left or right of the player to move and above the player to jump";
+function getInstructions() {
+    var a;
+    if (!IsMobile())
+        a = "Use the Arrow keys on your keyboard to move left or right and the up arrow to jump";
+    else
+        a = "Touch to the left or right of the player to move and above the player to jump";
 
-	return a;
+    return a;
 
 }
 
-function getMission(){
-	
-	var a = "Collect 200 nano caches and avoid the dinosaurs.  Be warned, some are just nasty and will push you around, others will simply kill you!!";
+function getMission() {
 
-	return a;
+    var a = "Collect 200 nano caches and avoid the dinosaurs.  Be warned, some are just nasty and will push you around, others will simply kill you!!";
+
+    return a;
 
 }
 
