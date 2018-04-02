@@ -125,7 +125,8 @@ Baddie = function (game, x, y, baddietype, spritename, constraint, constrainttyp
         }
     }
 
-      this.targetsprite = game.add.sprite(this.x + 20, this.y - 5, 'n4');
+    
+    this.targetsprite = game.add.sprite(this.x + 20, this.y - 5, 'n4');
     
 };
 
