@@ -30,6 +30,8 @@ var playState = {
         if(sprite.y + tilesize == blanky && sprite.x == blankx)
             canmove.push({tile: sprite, direction: 'down'});
 
+
+
         if (canmove.length == 1)
         {
             playState.movetile(canmove[0], false);

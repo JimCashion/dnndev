@@ -117,7 +117,7 @@ var play1State = {
         {
             
             // is the checksum right?
-            if(this.calcchecksum() != 662)
+            if(this.calcchecksum() != 676)
             {
                 error.visible = true;
                 dialoginstructions.visible = true;
