@@ -79,22 +79,7 @@ var playState = {
             for(var y =0; y<gridsize;y++)
             {
                 // game.add.sprite(224 + x * 88, 124 + y * 88, 'i' + x + 'x' + y);
-                var image = game.add.sprite(0, 0, 'i' + (x * 3 + y + 1)); 
-                tilesize = image.width;
-                image.x = 75 + (x * tilesize);
-                image.y = 150 + (y * tilesize);
-                image.inputEnabled=true;
-                image.events.onInputDown.add(this.imageclicked,this);
-                // tiles.create(224 + x * 88, 124 + y * 88, 'i' + x + 'x' + y);
-
-                image.inputEnabled = true;
-      			    image.input.enableDrag();
-      			    image.events.onDragStart.add(this.onDragStart, this);
-      			    image.events.onDragStop.add(this.onDragStop, this);
-
-                tiles.add(image);
-
-                original.push({tile: image, x: image.x, y: image.y});
+               
 
                 var image = game.add.sprite(0, 0, 'blank' + (x * 3 + y + 1)); 
                 tilesize = image.width;
@@ -106,11 +91,34 @@ var playState = {
                 blanks.add(image);
 
                 originalblanks.push({tile: image, x: image.x, y: image.y});
+            }
+        }
 
 
+        for(var x =0; x<gridsize;x++)
+        {
+            for(var y =0; y<gridsize;y++)
+            {
+                var image = game.add.sprite(0, 0, 'i' + (x * 3 + y + 1)); 
+                tilesize = image.width;
+                image.x = 75 + (x * tilesize);
+                image.y = 150 + (y * tilesize);
+                image.inputEnabled=true;
+                image.events.onInputDown.add(this.imageclicked,this);
+                // tiles.create(224 + x * 88, 124 + y * 88, 'i' + x + 'x' + y);
+
+                image.inputEnabled = true;
+                    image.input.enableDrag();
+                    image.events.onDragStart.add(this.onDragStart, this);
+                    image.events.onDragStop.add(this.onDragStop, this);
+
+                tiles.add(image);
+
+                original.push({tile: image, x: image.x, y: image.y});
 
             }
         }  
+
 
         //  scramble
          for(var randmoves = 0; randmoves < 1000; randmoves++){
